@@ -14,6 +14,11 @@
     </ion-toolbar>
   </ion-header>
   
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  @for(song of results; track song){
+    <p>{{song.label}}</p>
+  }
   <button (click)="handlePlay()">Play Song</button>
+
+  <p>{{issPlaying}}</p>
+  <p>{{dur}}</p>
 </ion-content>
