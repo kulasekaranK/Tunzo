@@ -1,0 +1,7 @@
+{
+  "name": "tunzo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
