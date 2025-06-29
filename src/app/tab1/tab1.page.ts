@@ -14,6 +14,7 @@ export class Tab1Page implements OnInit {
   results:any;
   issPlaying: boolean = false;
   dur:any
+  error:any;
 
   constructor() {
    console.log(this.results);
@@ -30,8 +31,12 @@ export class Tab1Page implements OnInit {
   }
   handlePlay() {
     const song = this.results[0];
+    try {
     Player.initialize(this.results, 3);
-    Player.play(song); // safe: user-initiated
+    Player.play(song);
+  } catch(error:any){
+this.error = error;
+    }
     setInterval(() =>{
       this.issPlaying = Player.isPlayingSong()
 this.dur = Player.getCurrentTime()
