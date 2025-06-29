@@ -19,11 +19,12 @@ export class Tab1Page implements OnInit {
  async ngOnInit(){
     const api = new TunzoPlayerAPI();
     this.results = await api.searchSongs('popular songs');
-    console.log(this.results);
-    Player.initialize(this.results, 3);
-    Player.play(this.results[7], 3);
-    Player.addToQueue(this.results[6]);
-    console.log( Player.getQueue());
     
   }
+  handlePlay() {
+    const song = this.results[0];
+    Player.initialize(this.results, 3);
+    Player.play(song); // safe: user-initiated
+  }
+  
 }
