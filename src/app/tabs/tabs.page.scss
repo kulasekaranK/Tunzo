@@ -1,1 +1,40 @@
+.premium-tabbar {
+    --background: transparent !important;
+    background: linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    height: 60px;
+    padding: 0 6px;
+}
 
+.premium-tabbar ion-tab-button {
+    --color: #888;
+    /* inactive gray */
+    --color-selected: #00ffc6;
+    /* premium mint-green accent */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.premium-tabbar ion-tab-button.tab-selected .material-icons {
+    transform: scale(1.2);
+    color: #00ffc6;
+    /* glowing mint-green */
+    text-shadow: 0 0 12px rgba(0, 255, 198, 0.6);
+}
+
+.premium-tabbar ion-tab-button .material-icons {
+    font-size: 22px;
+    margin-bottom: 2px;
+    transition: all 0.3s ease;
+}
+
+.premium-tabbar ion-label {
+    font-size: 11px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}

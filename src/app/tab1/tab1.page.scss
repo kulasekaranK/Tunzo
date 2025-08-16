@@ -1,35 +1,56 @@
-.premium-home {
-    background: linear-gradient(to bottom, #0a0f1f 0%, #060912 50%, #0a0f1f 100%);
+.title-chip {
+    position: fixed;
+    z-index: 1000;
+    top: 35px;
+    left: 20px;
+    display: flex;
+    /* stack icon over text */
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: #fff;
-    font-family: "Inter", sans-serif;
-    --ion-item-background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
-.premium-header {
-    --background: linear-gradient(to bottom, rgba(10, 15, 31, 0.95) 0%, rgba(10, 15, 31, 0.7) 100%);
-    --color: #fff;
-    --border-width: 0;
-    backdrop-filter: blur(20px);
+.chip-icon-wrapper {
+    background: radial-gradient(circle at 30% 30%, #00ffc6, #00695c);
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(0, 255, 198, 0.5);
+}
+
+.chip-icon {
+    width: 15px;
+    height: 15px;
+    color: #fff;
+}
+
+.chip-text {
+    font-family: 'Poppins', sans-serif;
+    /* 👉 Modern clean font */
+    font-size: 15px;
     font-weight: 600;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-}
-
-.nav-button {
-    --color: #fff;
-    --background: rgba(255, 255, 255, 0.1);
-    --border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    --ripple-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-button .material-icons {
-    font-size: 22px;
+    margin: 0 8px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    /* a bit tighter, looks premium */
+    text-transform: uppercase;
+    /* optional: makes it bolder */
 }
 
 .hero-section {
     position: relative;
-    height: 340px;
+    height: 370px;
+    top: 0px;
     display: flex;
     align-items: flex-end;
     padding: 24px;
@@ -51,7 +72,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.5) blur(12px);
+    filter: brightness(0.5) blur(3px);
     transform: scale(1.1);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 0;
@@ -159,7 +180,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--ion-color-primary);
     cursor: pointer;
     transition: all 0.3s;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -299,10 +320,14 @@
 
 .album-meta {
     margin-top: 14px;
-    padding: 0 4px;
+    padding: 0 0px;
 }
 
 .album-meta .title {
+    display: block;
+    /* or inline-block */
+    max-width: 200px;
+    /* give it a proper limit */
     font-weight: 700;
     font-size: 15px;
     white-space: nowrap;
@@ -314,10 +339,13 @@
 .album-meta .artist {
     color: rgba(255, 255, 255, 0.6);
     font-size: 13px;
-    margin-top: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.list-play {
+    color: var(--ion-color-primary);
 }
 
 .album-hover {
@@ -491,13 +519,16 @@
 }
 
 .list-title {
-    font-weight: 600;
+    display: block;
+    /* or inline-block */
+    max-width: 200px;
+    /* give it a proper limit */
+    font-weight: 700;
     font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #fff;
-    margin-bottom: 2px;
 }
 
 .list-artist {
@@ -506,25 +537,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.item-duration {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 13px;
-    font-weight: 500;
-    margin-right: 16px;
-}
-
-.list-play {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-    padding: 12px;
-    margin: -12px -12px -12px 0;
-    border-radius: 50%;
-    transition: all 0.3s;
-    opacity: 0;
 }
 
 .premium-item:hover .list-play {

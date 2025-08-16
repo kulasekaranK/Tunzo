@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonLabel, IonItem, IonList, IonSpinner, IonSearchbar, IonThumbnail } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonLabel, IonItem, IonList, IonThumbnail } from '@ionic/angular/standalone';
 import { SaavnApiService } from '../services/saavn.service';
 import { MusicControlsComponent } from "../components/controls/controls.page";
 import { AudioPlayerService } from '../services/player.service';
@@ -10,7 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  imports: [ IonSpinner, IonList, IonItem, IonLabel, IonButton, IonIcon, IonHeader,
+  imports: [ IonList, IonItem, IonLabel, IonButton, IonIcon, IonHeader,
      IonToolbar, IonTitle, IonContent, MusicControlsComponent, IonThumbnail, CommonModule],
 })
 export class Tab3Page {

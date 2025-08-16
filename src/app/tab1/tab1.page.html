@@ -1,20 +1,15 @@
-<ion-header class="premium-header">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button class="nav-button">
-                <span class="material-icons">arrow_back</span>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Tunzo Premium</ion-title>
-        <ion-buttons slot="end">
-            <ion-button class="nav-button">
-                <span class="material-icons">search</span>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<ion-content fullscreen="true">
 
-<ion-content class="premium-home">
+    <div class="title-chip">
+        <div class="chip-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="chip-icon">
+                <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" />
+            </svg>
+        </div>
+        <span class="chip-text">Tunzo</span>
+    </div>
+
+
 
     <!-- Featured Hero Section -->
     <div class="hero-section">
@@ -23,15 +18,17 @@
         <div class="hero-overlay"></div>
         <img [src]="results()[0]?.image?.[2]?.url" alt="Featured" class="hero-art" />
         <div class="hero-info">
-            <div class="badge">FEATURED</div>
+            <div class="badge">FEATURED</div><br>
+            <ion-note>{{results()[0]?.copyright}}</ion-note>
             <h2>{{results()[0]?.name}}</h2>
-            <p>{{results()[0]?.artists?.primary?.[0]?.name}}</p>
+            <p>{{results()[0]?.artists?.primary?.[0]?.name}} - {{results()[0]?.playCount}} Views</p>
+
             <div class="hero-actions">
                 <button class="play-hero-btn" (click)="playSong(results()[0])">
                     <span class="material-icons play-icon">play_arrow</span>
                     <span>Play Now</span>
                 </button>
-                <button class="favorite-btn">
+                <button class="favorite-btn" color="primary">
                     <span class="material-icons">favorite_border</span>
                 </button>
             </div>
@@ -98,16 +95,13 @@
         <ion-list class="premium-list">
             @for(song of results().slice(10); track song.id) {
             <ion-item lines="none" class="premium-item" (click)="playSong(song)">
-                <div class="item-number">{{$index + 1}}</div>
+                <!-- <div class="item-number">{{$index + 1}}</div> -->
                 <img slot="start" [src]="song?.image?.[0]?.url" class="list-art" />
                 <ion-label class="list-label">
                     <div class="list-title">{{song.name}}</div>
-                    <div class="list-artist">{{song.artists?.primary?.[0]?.name}}</div>
+                    <div class="list-artist">{{song.artists?.primary?.[0]?.name}} - {{song.year}}</div>
                 </ion-label>
-                <div class="item-duration">3:22</div>
-                <button class="list-play" slot="end">
-                    <span class="material-icons">play_arrow</span>
-                </button>
+                <span slot="end" class="material-icons list-play">play_arrow</span>
             </ion-item>
             }
         </ion-list>

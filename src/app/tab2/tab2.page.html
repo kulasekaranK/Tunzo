@@ -1,32 +1,63 @@
-<ion-header>
+<ion-header class="search-header ion-no-border" mode="ios" translucent="true">
     <ion-toolbar>
-        <ion-title>Search Songs</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-searchbar placeholder="Search for songs" debounce="400" (ionInput)="onSearchChange($event)">
+<ion-content class="search-page" fullscreen="true">
+
+    <!-- Hero Section -->
+    <div class="hero-text">
+        <h1>Discover Music</h1>
+        <p>Find your favorite tracks, albums & artists</p>
+    </div>
+
+    <!-- Search Bar -->
+    <ion-searchbar placeholder="Search songs, albums, or artists..." debounce="400" [(ngModel)]="searchQuery" class="modern-searchbar">
     </ion-searchbar>
 
-    <ion-spinner *ngIf="loading" name="crescent" style="margin: 16px auto; display:block;"></ion-spinner>
-
-    <ion-list *ngIf="songs.length">
-        <ion-item *ngFor="let song of songs; let i = index">
-            <ion-thumbnail slot="start">
-                <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover">
-            </ion-thumbnail>
-            <ion-label>
-                <h2>{{ song.name }}</h2>
-                <p>{{ song.album?.name }}</p>
-            </ion-label>
-            <ion-button fill="clear" slot="end" (click)="isPlaying(i) ? pause() : playSong(i)">
-                <ion-icon [name]="isPlaying(i) ? 'pause' : 'play'"></ion-icon>
-            </ion-button>
-        </ion-item>
-    </ion-list>
-
-    <div *ngIf="!loading && !songs.length" style="text-align: center; margin-top: 20px; color: gray;">
-        No songs found
+    <!-- Category Chips -->
+    <div class="chip-row ion-margin">
+        @for (chip of chips; track chip) {
+        <div class="chip" (click)="selectChip(chip)">
+            <span>{{ chip }}</span>
+        </div>
+        }
     </div>
-    <app-music-controls></app-music-controls>
+
+    <!-- Loading -->
+    @if (loading) {
+    <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+    }
+
+    <!-- Results -->
+    @if (results().length) {
+    <div class="results-list ion-padding">
+        <h2 class="section-title">Results</h2>
+        @for (song of results(); track song.id) {
+        <div class="song-row" (click)="playSong(song)">
+            <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover" />
+            <div class="details">
+                <h3 class="title">{{ song.name }}</h3>
+                <p class="subtitle">{{ song.album?.name }}</p>
+                <ion-note>{{song.year}}</ion-note>
+            </div>
+            <button class="play-btn">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        </div>
+        }
+    </div>
+
+
+    } @else {
+    <div class="empty-state">
+        <ion-icon name="musical-notes-outline" size="large"></ion-icon>
+        <h3>No songs found</h3>
+        <p>Try searching with another keyword or explore trending music.</p>
+    </div>
+    }
 </ion-content>
+
+@if (player.getCurrentSong()) {
+<app-music-controls></app-music-controls>
+}

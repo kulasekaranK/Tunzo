@@ -1,15 +1,16 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { IonContent, IonCard, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonCardContent, IonFooter, IonIcon, IonButton, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonList, IonItem, IonLabel, IonNote } from '@ionic/angular/standalone';
 import {TunzoPlayerAPI,Player} from 'tunzo-player';
-import { MusicControlsComponent } from "../components/controls/controls.page"; // if you want all in a namespace
+import { MusicControlsComponent } from "../components/controls/controls.page";
+import { FormsModule } from "@angular/forms"; // if you want all in a namespace
 
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonButtons, IonButton, IonIcon, IonFooter, IonCardContent, IonLabel, IonItem, IonList, IonTitle, IonToolbar, IonHeader, IonCard,
-    IonContent, MusicControlsComponent],
+  imports: [IonNote, IonLabel, IonItem, IonList,
+    IonContent, MusicControlsComponent, FormsModule],
 })
 export class Tab1Page implements OnInit {
   results = signal<any>([]);
@@ -28,7 +29,7 @@ export class Tab1Page implements OnInit {
     const resp: any =  await this.api.searchSongs('tamilhits');
     if(resp){
       this.results.set(resp);
-      console.log(this.results); 
+      console.log(this.results()); 
       Player.initialize(this.results());
     }
   }
