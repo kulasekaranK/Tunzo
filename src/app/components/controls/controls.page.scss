@@ -1,0 +1,179 @@
+.music-player-footer {
+    --background: rgba(18, 18, 24, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    .player-progress-container {
+        position: relative;
+        padding: 0 16px;
+        .player-progress-bar {
+            --progress-background: rgba(92, 86, 216, 0.3);
+            --buffer-background: rgba(255, 255, 255, 0.05);
+            height: 3px;
+            border-radius: 3px;
+            border: none; // Explicitly remove any borders
+            box-shadow: none; // Remove any shadow that might appear as a border
+            &::part(progress) {
+                border-bottom: none; // Specifically remove bottom border
+            }
+            &.player-active::part(progress) {
+                animation: progress-pulse 1.5s infinite;
+                border-bottom: none; // Ensure no border during animation
+            }
+        }
+        .player-time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+            .current-time {
+                color: var(--ion-color-primary);
+            }
+        }
+    }
+    .player-controls-toolbar {
+        --background: transparent;
+        --padding-top: 8px;
+        --padding-bottom: 8px;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        .player-main-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            .player-album-art {
+                width: 48px;
+                height: 48px;
+                border-radius: 8px;
+                overflow: hidden;
+                position: relative;
+                flex-shrink: 0;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+                transition: transform 0.3s ease;
+                .album-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .album-art-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(135deg, rgba(92, 86, 216, 0.3), transparent);
+                }
+                &.player-album-spin {
+                    animation: album-spin 20s linear infinite;
+                }
+            }
+            .player-primary-controls {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-grow: 1;
+                justify-content: center;
+                .player-nav-button {
+                    background: transparent;
+                    border: none;
+                    color: white;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: all 0.2s ease;
+                    opacity: 0.8;
+                    .player-nav-icon {
+                        width: 24px;
+                        height: 24px;
+                    }
+                    &:hover {
+                        opacity: 1;
+                        transform: scale(1.1);
+                        background: rgba(255, 255, 255, 0.1);
+                    }
+                }
+                .player-play-button {
+                    background: var(--ion-color-primary);
+                    border: none;
+                    color: white;
+                    width: 48px;
+                    height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: all 0.2s ease;
+                    box-shadow: 0 4px 12px rgba(92, 86, 216, 0.4);
+                    .player-play-icon {
+                        width: 28px;
+                        height: 28px;
+                    }
+                    &:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 16px rgba(92, 86, 216, 0.5);
+                    }
+                }
+            }
+            .player-secondary-controls {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                .player-action-button {
+                    background: transparent;
+                    border: none;
+                    color: rgba(255, 255, 255, 0.7);
+                    width: 36px;
+                    height: 36px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: all 0.2s ease;
+                    .player-action-icon {
+                        width: 20px;
+                        height: 20px;
+                        fill: currentColor;
+                        transition: all 0.2s ease;
+                        &.player-liked {
+                            fill: var(--ion-color-danger);
+                        }
+                    }
+                    &:hover {
+                        color: white;
+                        background: rgba(255, 255, 255, 0.1);
+                        .player-action-icon {
+                            transform: scale(1.1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes album-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes progress-pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}

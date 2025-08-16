@@ -1,46 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-import {TunzoPlayerAPI, Player} from 'tunzo-player'; // if you want all in a namespace
+import { Component, OnInit, signal } from '@angular/core';
+import { IonContent, IonCard, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonCardContent, IonFooter, IonIcon, IonButton, IonButtons } from '@ionic/angular/standalone';
+import {TunzoPlayerAPI,Player} from 'tunzo-player';
+import { MusicControlsComponent } from "../components/controls/controls.page"; // if you want all in a namespace
 
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [IonButtons, IonButton, IonIcon, IonFooter, IonCardContent, IonLabel, IonItem, IonList, IonTitle, IonToolbar, IonHeader, IonCard,
+    IonContent, MusicControlsComponent],
 })
 export class Tab1Page implements OnInit {
-  results:any;
+  results = signal<any>([]);
   issPlaying: boolean = false;
   dur:any
   error:any;
+  api = new TunzoPlayerAPI();
+  player = Player;
 
   constructor() {
    console.log(this.results);
    
   }
  async ngOnInit(){
-    const api = new TunzoPlayerAPI();
-    this.results = await api.searchSongs('popular songs');
-    console.log(this.results)
-
-
    
-    
-  }
-  handlePlay() {
-    const song = this.results[0];
-    try {
-    Player.initialize(this.results, 3);
-    Player.play(song);
-  } catch(error:any){
-this.error = error;
+    const resp: any =  await this.api.searchSongs('tamilhits');
+    if(resp){
+      this.results.set(resp);
+      console.log(this.results); 
+      Player.initialize(this.results());
     }
-    setInterval(() =>{
-      this.issPlaying = Player.isPlayingSong()
-this.dur = Player.getCurrentTime()
-    }, 1000)
+  }
+  playSong(song: any) {
+    Player.unlockAudio();
+    Player.play(song)
   }
   
 }

@@ -1,17 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Search Songs</ion-title>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+    <ion-searchbar placeholder="Search for songs" debounce="400" (ionInput)="onSearchChange($event)">
+    </ion-searchbar>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <ion-spinner *ngIf="loading" name="crescent" style="margin: 16px auto; display:block;"></ion-spinner>
+
+    <ion-list *ngIf="songs.length">
+        <ion-item *ngFor="let song of songs; let i = index">
+            <ion-thumbnail slot="start">
+                <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover">
+            </ion-thumbnail>
+            <ion-label>
+                <h2>{{ song.name }}</h2>
+                <p>{{ song.album?.name }}</p>
+            </ion-label>
+            <ion-button fill="clear" slot="end" (click)="isPlaying(i) ? pause() : playSong(i)">
+                <ion-icon [name]="isPlaying(i) ? 'pause' : 'play'"></ion-icon>
+            </ion-button>
+        </ion-item>
+    </ion-list>
+
+    <div *ngIf="!loading && !songs.length" style="text-align: center; margin-top: 20px; color: gray;">
+        No songs found
+    </div>
+    <app-music-controls></app-music-controls>
 </ion-content>

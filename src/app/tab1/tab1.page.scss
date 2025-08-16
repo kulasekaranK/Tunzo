@@ -1,0 +1,541 @@
+.premium-home {
+    background: linear-gradient(to bottom, #0a0f1f 0%, #060912 50%, #0a0f1f 100%);
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    --ion-item-background: transparent;
+}
+
+.premium-header {
+    --background: linear-gradient(to bottom, rgba(10, 15, 31, 0.95) 0%, rgba(10, 15, 31, 0.7) 100%);
+    --color: #fff;
+    --border-width: 0;
+    backdrop-filter: blur(20px);
+    font-weight: 600;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-button {
+    --color: #fff;
+    --background: rgba(255, 255, 255, 0.1);
+    --border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    --ripple-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-button .material-icons {
+    font-size: 22px;
+}
+
+.hero-section {
+    position: relative;
+    height: 340px;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    overflow: hidden;
+    border-radius: 0 0 28px 28px;
+    margin-bottom: 8px;
+}
+
+.hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(106, 17, 203, 0.3) 0%, rgba(37, 117, 252, 0.2) 100%);
+    z-index: 0;
+}
+
+.hero-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5) blur(12px);
+    transform: scale(1.1);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+}
+
+.hero-section:hover .hero-art {
+    transform: scale(1.15);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+    z-index: 1;
+}
+
+.hero-info {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.badge {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(12px);
+    padding: 6px 14px;
+    border-radius: 24px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 16px;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-transform: uppercase;
+}
+
+.hero-info h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+    letter-spacing: -0.5px;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hero-info p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 8px 0 20px;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.play-hero-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 28px;
+    font-size: 15px;
+    padding: 14px 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.play-hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.play-hero-btn:active {
+    transform: scale(0.96);
+}
+
+.play-hero-btn .material-icons {
+    font-size: 22px;
+}
+
+.favorite-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.favorite-btn .material-icons {
+    font-size: 22px;
+}
+
+.section {
+    margin-top: 24px;
+    padding: 0 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.3px;
+}
+
+.see-all {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.see-all:hover {
+    color: #fff;
+}
+
+.scroll-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    scrollbar-width: none;
+    margin: 0 -20px;
+    padding: 0 20px;
+}
+
+.scroll-row::-webkit-scrollbar {
+    display: none;
+}
+
+.album-card {
+    min-width: 180px;
+    width: 180px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.album-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(106, 17, 203, 0.2) 0%, rgba(37, 117, 252, 0.15) 100%);
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.album-card:hover .album-gradient {
+    opacity: 1;
+}
+
+.album-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    border-radius: 16px;
+}
+
+.album-card:hover .album-glow {
+    opacity: 0.6;
+}
+
+.album-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    border-radius: 6px;
+    padding: 4px 8px;
+    z-index: 2;
+    color: #ff5e5e;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.album-badge .material-icons {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.album-art {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.album-card:hover {
+    transform: translateY(-8px);
+}
+
+.album-card:hover .album-art {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+
+.album-meta {
+    margin-top: 14px;
+    padding: 0 4px;
+}
+
+.album-meta .title {
+    font-weight: 700;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.album-meta .artist {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+}
+
+.album-card:hover .album-hover {
+    opacity: 1;
+}
+
+.album-hover .material-icons {
+    font-size: 36px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    border-radius: 50%;
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
+}
+
+.album-hover .material-icons:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.recently-played {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.recent-track {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.recent-track:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.track-number {
+    width: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+}
+
+.recent-art {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recent-info {
+    flex: 1;
+    min-width: 0;
+    margin-right: 12px;
+}
+
+.recent-title {
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.recent-artist {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.recent-time {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.recent-more {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 8px;
+    margin: -8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.recent-more:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.recent-more .material-icons {
+    font-size: 20px;
+}
+
+.premium-list {
+    background: transparent;
+    padding: 0;
+}
+
+.premium-item {
+    --background: transparent;
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --min-height: 64px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s;
+}
+
+.premium-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(4px);
+}
+
+.item-number {
+    width: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    margin-right: 16px;
+}
+
+.list-art {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+.premium-item:hover .list-art {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.list-label {
+    margin: 10px 0;
+}
+
+.list-title {
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.list-artist {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-duration {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 16px;
+}
+
+.list-play {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    padding: 12px;
+    margin: -12px -12px -12px 0;
+    border-radius: 50%;
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.premium-item:hover .list-play {
+    opacity: 1;
+    color: #fff;
+}
+
+.list-play:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.list-play .material-icons {
+    font-size: 20px;
+}

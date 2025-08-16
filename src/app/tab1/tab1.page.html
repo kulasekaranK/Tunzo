@@ -1,25 +1,120 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
+<ion-header class="premium-header">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button class="nav-button">
+                <span class="material-icons">arrow_back</span>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Tunzo Premium</ion-title>
+        <ion-buttons slot="end">
+            <ion-button class="nav-button">
+                <span class="material-icons">search</span>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-      
-    </ion-toolbar>
-  </ion-header>
-  
-  @for(song of results; track song){
-    <p>{{song.label}}</p>
-  }
-  <button (click)="handlePlay()">Play Song</button>
+<ion-content class="premium-home">
 
-  <p>{{issPlaying}}</p>
-  <p>{{dur}}</p>
-  <p>{{error}}</p>
+    <!-- Featured Hero Section -->
+    <div class="hero-section">
+        <div class="hero-gradient"></div>
+        <div class="album-glow"></div>
+        <div class="hero-overlay"></div>
+        <img [src]="results()[0]?.image?.[2]?.url" alt="Featured" class="hero-art" />
+        <div class="hero-info">
+            <div class="badge">FEATURED</div>
+            <h2>{{results()[0]?.name}}</h2>
+            <p>{{results()[0]?.artists?.primary?.[0]?.name}}</p>
+            <div class="hero-actions">
+                <button class="play-hero-btn" (click)="playSong(results()[0])">
+                    <span class="material-icons play-icon">play_arrow</span>
+                    <span>Play Now</span>
+                </button>
+                <button class="favorite-btn">
+                    <span class="material-icons">favorite_border</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trending Carousel -->
+    <div class="section">
+        <div class="section-header">
+            <h3>Trending Now</h3>
+            <a href="#" class="see-all">See All</a>
+        </div>
+        <div class="scroll-row premium-scroll">
+            @for(song of results().slice(1,6); track song.id) {
+            <div class="album-card" (click)="playSong(song)">
+                <div class="album-gradient"></div>
+                <div class="album-glow"></div>
+                <div class="album-badge">
+                    <span class="material-icons">trending_up</span>
+                </div>
+                <img [src]="song.image?.[1]?.url" class="album-art" />
+                <div class="album-meta">
+                    <span class="title">{{song.name}}</span>
+                    <span class="artist">{{song.artists?.primary?.[0]?.name}}</span>
+                </div>
+                <div class="album-hover">
+                    <span class="material-icons play-icon">play_arrow</span>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Recently Played -->
+    <div class="section">
+        <div class="section-header">
+            <h3>Recently Played</h3>
+            <a href="#" class="see-all">See All</a>
+        </div>
+        <div class="recently-played">
+            @for(song of results().slice(6,10); track song.id) {
+            <div class="recent-track" (click)="playSong(song)">
+                <div class="track-number">{{$index + 1}}</div>
+                <img [src]="song?.image?.[0]?.url" class="recent-art" />
+                <div class="recent-info">
+                    <div class="recent-title">{{song.name}}</div>
+                    <div class="recent-artist">{{song.artists?.primary?.[0]?.name}}</div>
+                </div>
+                <div class="recent-time">3:42</div>
+                <button class="recent-more">
+                    <span class="material-icons">more_vert</span>
+                </button>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- All Songs List -->
+    <div class="section">
+        <div class="section-header">
+            <h3>All Songs</h3>
+            <a href="#" class="see-all">See All</a>
+        </div>
+        <ion-list class="premium-list">
+            @for(song of results().slice(10); track song.id) {
+            <ion-item lines="none" class="premium-item" (click)="playSong(song)">
+                <div class="item-number">{{$index + 1}}</div>
+                <img slot="start" [src]="song?.image?.[0]?.url" class="list-art" />
+                <ion-label class="list-label">
+                    <div class="list-title">{{song.name}}</div>
+                    <div class="list-artist">{{song.artists?.primary?.[0]?.name}}</div>
+                </ion-label>
+                <div class="item-duration">3:22</div>
+                <button class="list-play" slot="end">
+                    <span class="material-icons">play_arrow</span>
+                </button>
+            </ion-item>
+            }
+        </ion-list>
+    </div>
+
 </ion-content>
+
+@if(player.getCurrentSong()) {
+<app-music-controls></app-music-controls>
+}
