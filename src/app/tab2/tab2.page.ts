@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonSearchbar, IonIcon, IonSpinner, IonNote } from '@ionic/angular/standalone';
 import { MusicControlsComponent } from "../components/controls/controls.page";
-import {TunzoPlayerAPI,Player} from 'tunzo-player';
+import { TunzoPlayerAPI, Player } from 'tunzo-player';
 
 @Component({
   selector: 'app-tab2',
@@ -18,29 +18,31 @@ import {TunzoPlayerAPI,Player} from 'tunzo-player';
     MusicControlsComponent]
 })
 export class Tab2Page {
- chips: string[] = ["Chill", "Workout", "Romantic", "Party", "Focus", "Sleep"];
+  chips: string[] = ["Chill", "Workout", "Romantic", "Party", "Focus", "Sleep"];
 
   searchQuery = signal('');
   songs: any[] = [];
-  loading = false;
+ loading = signal<boolean>(false);
   results = signal<any>([]);
 
   api = new TunzoPlayerAPI();
   player = Player;
 
   constructor() {
-   console.log(this.results);
-     effect(async () => {
-    const resp: any =  await this.api.searchSongs(this.searchQuery());  
-     if(resp){
-       this.results.set(resp);
-       console.log(this.results()); 
-       Player.initialize(this.results());
-     }
-  })
-   
+    console.log(this.results);
+    effect(async () => {
+      this.loading.set(true);
+      const resp: any = await this.api.searchSongs(this.searchQuery());
+      if (resp) {
+        this.results.set(resp);
+        console.log(this.results());
+        Player.initialize(this.results());
+      }
+      this.loading.set(false);
+    })
+
   }
- async ngOnInit(){
+  async ngOnInit() {
 
   }
   playSong(song: any) {
@@ -48,6 +50,10 @@ export class Tab2Page {
     Player.play(song)
   }
   selectChip(chip: string) {
-  this.searchQuery.set(chip + 'tamil');
-}
+    this.searchQuery.set(chip + 'tamil');
+  }
+  addToQueue(song: any) {
+    Player.addToQueue(song); // Use your Player package's method
+    console.log(`${song.name} added to queue`);
+  }
 }

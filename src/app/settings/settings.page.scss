@@ -1,0 +1,353 @@
+.back-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 35px;
+    left: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.back-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.back-icon .material-icons {
+    font-size: 22px;
+    color: #00ffc6;
+    /* subtle premium glow */
+}
+
+.title-chip {
+    display: inline-flex;
+    /* stack icon over text */
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.chip-icon-wrapper {
+    background: radial-gradient(circle at 30% 30%, #00ffc6, #00695c);
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(0, 255, 198, 0.5);
+}
+
+.chip-icon {
+    width: 15px;
+    height: 15px;
+    color: #fff;
+}
+
+.chip-text {
+    font-family: 'Poppins', sans-serif;
+    /* 👉 Modern clean font */
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 8px;
+    color: #fff;
+    letter-spacing: 0.5px;
+    /* a bit tighter, looks premium */
+    text-transform: uppercase;
+    /* optional: makes it bolder */
+}
+
+.luxury-settings {
+    --ion-background-color: #0f0e17;
+    --ion-text-color: #fffffe;
+    padding: 0;
+    background: linear-gradient(135deg, #121026 0%, #1a1a2e 100%);
+}
+
+
+/* Premium Header */
+
+.luxury-header {
+    padding: 50px 24px 30px;
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 255, 198, 0.1) 100%);
+    border-radius: 24px;
+    margin: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Modern Card Design */
+
+.settings-cards {
+    padding: 0 24px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.luxury-card {
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.luxury-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.luxury-card .card-icon {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    transition: all 0.3s ease;
+}
+
+.luxury-card .card-icon svg {
+    width: 24px;
+    height: 24px;
+    color: #00ffc6;
+}
+
+.luxury-card .card-content {
+    flex: 1;
+}
+
+.luxury-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #fffffe;
+    letter-spacing: 0.5px;
+}
+
+.luxury-card p {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+
+/* Disabled / Coming Soon */
+
+.luxury-card.disabled {
+    opacity: 0.7;
+}
+
+.coming-soon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #00ffc6;
+    color: #0f0e17;
+}
+
+
+/* Storage Notice Modernized */
+
+.storage-notice {
+    max-width: 520px;
+    margin: 24px 16px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: rgba(0, 255, 198, 0.08);
+    border-left: 4px solid #00ffc6;
+    display: flex;
+    align-items: flex-start;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.notice-icon svg {
+    width: 22px;
+    height: 22px;
+    color: #00ffc6;
+    margin-right: 12px;
+}
+
+.notice-content h4 {
+    font-size: 0.95rem;
+    color: #00ffc6;
+    margin: 0 0 6px 0;
+    font-weight: 600;
+}
+
+.notice-content p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+
+/* Developer Section Modernized */
+
+.luxury-developer {
+    max-width: 520px;
+    margin: 40px 16px;
+    padding: 32px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.dev-header .diamond-icon {
+    font-size: 1.6rem;
+    color: #ffd700;
+    margin-bottom: 8px;
+}
+
+.dev-profile .dev-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #00ffc6, #0083b0);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 4px;
+}
+
+.dev-profile .dev-title {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* Social Buttons Modernized */
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 16px;
+}
+
+.social-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+}
+
+.social-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.social-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(0, 255, 198, 0.5);
+}
+
+.social-btn.email svg {
+    color: #d44638;
+}
+
+.social-btn.github svg {
+    color: #fffffe;
+}
+
+.social-btn.instagram svg {
+    color: white;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+
+/* Luxury Ion Select */
+
+.luxury-select {
+    width: 100px;
+    --background: rgba(14, 22, 23, 0.8);
+    /* semi-transparent dark */
+    --color: #00ffc6;
+    /* text color */
+    --placeholder-color: rgba(255, 255, 255, 0.5);
+    --border-radius: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 50px;
+    --box-shadow: 0 8px 24px rgba(0, 255, 198, 0.2);
+    --font-size: 0.95rem;
+    --font-weight: 600;
+    --border-width: 1px;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* Action Sheet Options */
+
+.luxury-select::part(interface) {
+    backdrop-filter: blur(12px);
+    background: rgba(15, 14, 23, 0.95);
+    border-radius: 16px;
+    color: #00ffc6;
+}
+
+
+/* Individual Buttons / Options inside Action Sheet */
+
+.luxury-select::part(option) {
+    color: #00ffc6;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 6px;
+    background: rgba(0, 255, 198, 0.05);
+    transition: all 0.3s ease;
+}
+
+.luxury-select::part(option:hover) {
+    background: rgba(0, 255, 198, 0.15);
+    color: #fff;
+}
+
+
+/* Optional: Selected Value */
+
+.luxury-select::part(text) {
+    color: #00ffc6;
+    font-weight: 600;
+    font-size: 1rem;
+}

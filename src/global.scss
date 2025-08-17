@@ -46,8 +46,6 @@
 
 /* --------- PREMIUM BLACK + GRAY BACKGROUND --------- */
 
-html,
-body,
 ion-app,
 ion-router-outlet,
 .ion-page,
@@ -86,4 +84,33 @@ ion-app {
 ion-content::part(scroll),
 ion-content::part(background) {
     background: transparent !important;
+}
+
+
+/* But force a background for ion-modal */
+
+ion-modal {
+    --background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 40%), radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.03), transparent 50%), linear-gradient(180deg, #000000 0%, #0d0d0d 40%, #1a1a1a 70%, #000000 100%);
+    /* semi-transparent dark */
+    backdrop-filter: blur(12px);
+    /* optional glass effect */
+    border-radius: 16px;
+    /* rounded corners */
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+
+/* If using fullscreen modal */
+
+ion-modal .modal-wrapper {
+    background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 40%), radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.03), transparent 50%), linear-gradient(180deg, #000000 0%, #0d0d0d 40%, #1a1a1a 70%, #000000 100%);
+}
+
+
+/* Optional: scroll area inside modal */
+
+ion-modal ion-content::part(scroll),
+ion-modal ion-content::part(background) {
+    background: transparent;
+    /* keep inner content transparent for glass effect */
 }

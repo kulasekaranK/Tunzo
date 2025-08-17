@@ -8,6 +8,62 @@
         </div>
         <span class="chip-text">Tunzo</span>
     </div>
+    <div class="settings-button" routerLink="settings">
+        <svg class="gear-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <defs>
+          <linearGradient id="gearGradientRight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00ffc6" />
+            <stop offset="100%" stop-color="#0083B0" />
+          </linearGradient>
+        </defs>
+        <path fill="none" stroke="url(#gearGradientRight)" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+        <path fill="none" stroke="url(#gearGradientRight)" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+      </svg>
+    </div>
+    @if(loading()) {
+    <!-- Skeleton for featured hero -->
+    <div class="hero-section">
+        <ion-skeleton-text animated style="width: 100%; height: 280px; border-radius: 16px;"></ion-skeleton-text>
+        <div style="margin-top: 12px;">
+            <ion-skeleton-text animated style="width: 60%; height: 24px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 40%; height: 18px; margin-top: 8px;"></ion-skeleton-text>
+        </div>
+    </div>
+    <!-- Skeleton for trending carousel -->
+    <div class="section">
+        <div class="scroll-row premium-scroll">
+            @for(i of [1,2,3,4,5]; track i) {
+            <ion-skeleton-text animated style="min-width: 100px; height: 100px; border-radius: 12px; margin-right: 12px;">
+            </ion-skeleton-text>
+            }
+        </div>
+    </div>
+    <!-- Skeleton for recently played -->
+    <div class="section">
+        @for(i of [1,2,3,4]; track i) {
+        <ion-skeleton-text animated style="width: 100%; height: 48px; border-radius: 8px; margin-bottom: 8px;">
+        </ion-skeleton-text>
+        }
+    </div>
+    <!-- Skeleton for all songs list -->
+    <div class="section">
+        <ion-list>
+            @for(i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+            <ion-item>
+                <ion-skeleton-text animated style="width: 44px; height: 44px; border-radius: 8px;" slot="start"></ion-skeleton-text>
+                <ion-label>
+                    <ion-skeleton-text animated style="width: 80%; height: 18px;"></ion-skeleton-text>
+                    <ion-skeleton-text animated style="width: 60%; height: 14px; margin-top: 6px;"></ion-skeleton-text>
+                </ion-label>
+            </ion-item>
+            }
+        </ion-list>
+    </div>
+    } @else {
+
 
 
 
@@ -49,7 +105,7 @@
                 <div class="album-badge">
                     <span class="material-icons">trending_up</span>
                 </div>
-                <img [src]="song.image?.[1]?.url" class="album-art" />
+                <img [src]="song.image?.[2]?.url" class="album-art" />
                 <div class="album-meta">
                     <span class="title">{{song.name}}</span>
                     <span class="artist">{{song.artists?.primary?.[0]?.name}}</span>
@@ -72,15 +128,16 @@
             @for(song of results().slice(6,10); track song.id) {
             <div class="recent-track" (click)="playSong(song)">
                 <div class="track-number">{{$index + 1}}</div>
-                <img [src]="song?.image?.[0]?.url" class="recent-art" />
+                <img [src]="song?.image?.[1]?.url" class="recent-art" />
                 <div class="recent-info">
                     <div class="recent-title">{{song.name}}</div>
                     <div class="recent-artist">{{song.artists?.primary?.[0]?.name}}</div>
                 </div>
                 <div class="recent-time">3:42</div>
-                <button class="recent-more">
+                <button id="click-trigger" class="recent-more" (click)="$event.stopPropagation();">
                     <span class="material-icons">more_vert</span>
                 </button>
+
             </div>
             }
         </div>
@@ -96,7 +153,7 @@
             @for(song of results().slice(10); track song.id) {
             <ion-item lines="none" class="premium-item" (click)="playSong(song)">
                 <!-- <div class="item-number">{{$index + 1}}</div> -->
-                <img slot="start" [src]="song?.image?.[0]?.url" class="list-art" />
+                <img slot="start" [src]="song?.image?.[1]?.url" class="list-art" />
                 <ion-label class="list-label">
                     <div class="list-title">{{song.name}}</div>
                     <div class="list-artist">{{song.artists?.primary?.[0]?.name}} - {{song.year}}</div>
@@ -106,7 +163,7 @@
             }
         </ion-list>
     </div>
-
+    }
 </ion-content>
 
 @if(player.getCurrentSong()) {

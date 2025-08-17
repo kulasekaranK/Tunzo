@@ -25,8 +25,10 @@
     </div>
 
     <!-- Loading -->
-    @if (loading) {
-    <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+    @if (loading()) {
+    <div class="ion-text-center">
+        <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+    </div>
     }
 
     <!-- Results -->
@@ -34,21 +36,29 @@
     <div class="results-list ion-padding">
         <h2 class="section-title">Results</h2>
         @for (song of results(); track song.id) {
-        <div class="song-row" (click)="playSong(song)">
+        <div class="song-row">
+            <!-- Album Cover -->
             <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover" />
+
+            <!-- Song Details -->
             <div class="details">
                 <h3 class="title">{{ song.name }}</h3>
                 <p class="subtitle">{{ song.album?.name }}</p>
-                <ion-note>{{song.year}}</ion-note>
+                <ion-note>{{ song.year }}</ion-note>
             </div>
-            <button class="play-btn">
+
+            <!-- Play Button -->
+            <button class="play-btn" (click)="playSong(song)">
           <span class="material-icons">play_arrow</span>
+        </button>
+
+            <!-- Add to Queue Button -->
+            <button class="play-btn queue-btn" (click)="addToQueue(song)">
+          <span class="material-icons">queue_music</span>
         </button>
         </div>
         }
     </div>
-
-
     } @else {
     <div class="empty-state">
         <ion-icon name="musical-notes-outline" size="large"></ion-icon>

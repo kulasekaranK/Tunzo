@@ -47,9 +47,40 @@
     /* optional: makes it bolder */
 }
 
+.settings-button {
+    position: fixed;
+    z-index: 1000;
+    top: 35px;
+    right: 20px;
+    /* Right side */
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.settings-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.settings-button .gear-icon {
+    width: 25px;
+    height: 25px;
+}
+
 .hero-section {
     position: relative;
-    height: 370px;
+    height: 400px;
     top: 0px;
     display: flex;
     align-items: flex-end;
@@ -71,9 +102,9 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    filter: brightness(0.5) blur(3px);
-    transform: scale(1.1);
+    // object-fit: cover;
+    filter: brightness(0.5) blur(2px);
+    // transform: scale(1.1);
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 0;
 }

@@ -1,43 +1,43 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonLabel, IonItem, IonList, IonThumbnail } from '@ionic/angular/standalone';
-import { SaavnApiService } from '../services/saavn.service';
-import { MusicControlsComponent } from "../components/controls/controls.page";
-import { AudioPlayerService } from '../services/player.service';
+import { ChangeDetectorRef, Component, OnDestroy, signal } from '@angular/core';
+import { IonContent } from '@ionic/angular/standalone';
+import { FirestoreService } from '../services/saavn.service';
 import { CommonModule } from '@angular/common';
+import { Player } from 'tunzo-player';
+import { MusicControlsComponent } from "../components/controls/controls.page";
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  imports: [ IonList, IonItem, IonLabel, IonButton, IonIcon, IonHeader,
-     IonToolbar, IonTitle, IonContent, MusicControlsComponent, IonThumbnail, CommonModule],
+  imports: [
+    IonContent, CommonModule,
+    MusicControlsComponent
+],
 })
-export class Tab3Page {
+export class Tab3Page implements OnDestroy {
   songs: any[] = [];
-  constructor(private SaavnApiService: SaavnApiService,
+  subscribe: any;
+  likedSongLoading = signal<boolean>(true);
+  homePageSongs: any[] = [];
+  player = Player
+ constructor(
+    private firebaseService: FirestoreService,
     private cdr: ChangeDetectorRef,
-    public player: AudioPlayerService
   ) {
-     this.SaavnApiService.getCollectionData('likedSongs').subscribe((data: any) => {
-          this.songs.push(...data);
-          this.cdr.detectChanges();
-        });
-  }
-    async playSong(index: number) {
-      this.player.setPlaylist(this.songs, index);
-      try {
-        await this.player.playSong(index);
-      } catch (err) {
-        console.error('Error playing song', err);
+    this.subscribe = this.firebaseService.getCollectionData('likedSongs').subscribe((data: any[]) => {
+      this.homePageSongs = data || [];
+      this.likedSongLoading.set(false);
+      if (data && data.length) {
+        this.player.initialize(data);
       }
+      this.cdr.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscribe) {
+      this.subscribe.unsubscribe();
     }
+  }
   
-    isPlaying(index: number): boolean {
-      return this.player.isCurrentlyPlaying() &&
-             this.player.getCurrentSong()?.id === this.songs[index]?.id;
-    }
-  
-    pause() {
-      this.player.pause();
-    }
 }

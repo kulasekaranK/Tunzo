@@ -1,16 +1,16 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { IonContent, IonList, IonItem, IonLabel, IonNote } from '@ionic/angular/standalone';
-import {TunzoPlayerAPI,Player} from 'tunzo-player';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
+import { IonContent, IonList, IonItem, IonLabel, IonNote, IonSkeletonText, IonPopover } from '@ionic/angular/standalone';
+import {TunzoPlayerAPI,Player, StreamSettings} from 'tunzo-player';
 import { MusicControlsComponent } from "../components/controls/controls.page";
-import { FormsModule } from "@angular/forms"; // if you want all in a namespace
-
+import { FormsModule } from "@angular/forms";
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonNote, IonLabel, IonItem, IonList,
-    IonContent, MusicControlsComponent, FormsModule],
+  imports: [IonPopover, IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
+    IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule],
 })
 export class Tab1Page implements OnInit {
   results = signal<any>([]);
@@ -19,9 +19,10 @@ export class Tab1Page implements OnInit {
   error:any;
   api = new TunzoPlayerAPI();
   player = Player;
+  loading = signal<boolean>(true);
 
   constructor() {
-   console.log(this.results);
+    this.loading.set(true);
    
   }
  async ngOnInit(){
@@ -30,12 +31,16 @@ export class Tab1Page implements OnInit {
     if(resp){
       this.results.set(resp);
       console.log(this.results()); 
-      Player.initialize(this.results());
+          const currentQuality = StreamSettings.loadQuality();
+      Player.initialize(this.results(), currentQuality.value);
     }
+      this.loading.set(false);
   }
   playSong(song: any) {
     Player.unlockAudio();
     Player.play(song)
   }
+
+
   
 }

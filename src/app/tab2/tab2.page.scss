@@ -182,3 +182,13 @@
 .empty-state h3 {
     color: #fff;
 }
+
+.queue-btn {
+    background: rgba(255, 255, 255, 0.08);
+    margin-left: 8px;
+}
+
+.queue-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
