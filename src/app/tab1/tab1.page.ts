@@ -9,7 +9,7 @@ import { RouterLink, RouterModule } from '@angular/router';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonPopover, IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
+  imports: [ IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
     IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule],
 })
 export class Tab1Page implements OnInit {
