@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">tunzo</string>
-    <string name="title_activity_main">tunzo</string>
+    <string name="app_name">Tunzo</string>
+    <string name="title_activity_main">Tunzo</string>
     <string name="package_name">tunzo.app.com</string>
     <string name="custom_url_scheme">tunzo.app.com</string>
 </resources>
