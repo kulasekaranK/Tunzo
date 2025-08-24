@@ -14,7 +14,7 @@
         <div class="player-main-container">
             <div class="player-album-art" [class.player-album-spin]="player.isPlayingSong()">
                 @if (player.getCurrentSong()) {
-                <img [src]="player.getCurrentSong()?.image[1]?.url" alt="Now Playing" class="album-image"> }
+                <img [src]="player.getCurrentSong()?.imageUrl || player.getCurrentSong()?.image[1]?.url" alt="Now Playing" class="album-image"> }
                 <div class="album-art-overlay"></div>
             </div>
 
@@ -68,13 +68,13 @@
             <div class="player-view">
                 <!-- Album Info Section -->
                 <div class="album-info">
-                    <h1 class="album-title" [innerHTML]="sanitizeHtml(player.getCurrentSong()?.album?.name)"></h1>
-                    <p class="album-label" [innerHTML]="sanitizeHtml(player.getCurrentSong()?.label)"></p>
+                    <h1 class="album-title" [innerHTML]="sanitizeHtml(player.getCurrentSong()?.album?.name || player.getCurrentSong()?.album )"></h1>
+                    <p class="album-label" [innerHTML]="sanitizeHtml(player.getCurrentSong()?.label || player.getCurrentSong()?.artists[0])"></p>
                 </div>
 
                 <!-- Album Art -->
                 <div class="album-art-container">
-                    <img [src]="player.getCurrentSong()?.image[2]?.url" alt="Album Cover" class="album-art" [class.art-elevated]="player.isPlayingSong()">
+                    <img [src]="player.getCurrentSong()?.imageUrl || player.getCurrentSong()?.image[2]?.url" alt="Album Cover" class="album-art" [class.art-elevated]="player.isPlayingSong()">
                     <div class="art-shadow"></div>
                 </div>
 
@@ -157,7 +157,7 @@
                     </ion-text>
                 </div>
             </div>
-
+            @if(player.getCurrentSong()?.artists?.primary?.length > 0) {
             <ion-card class="ion-no-padding ion-no-margin" style="width: 100%;">
                 <ion-card-header>
                     <ion-label class="ion-text-center">Artists</ion-label>
@@ -167,13 +167,12 @@
                     <div class="artist-container">
                         @for (artist of player.getCurrentSong()?.artists?.primary; track $index) {
 
-                        <img [src]="artist.image[1]?.url" alt="{{ artist.name }}"> }
+                        <img [src]="artist?.image[1]?.url" alt="{{ artist.name }}"> }
                     </div>
 
                 </ion-card-content>
             </ion-card>
-
-            @if(player.getQueue().length > 0) {
+            } @if(player.getQueue().length > 0) {
             <ion-card class="ion-no-padding ion-no-margin ion-margin-top rounded-xl shadow-md" style="width: 100%;">
                 <ion-card-header class="bg-white border-b border-gray-200">
                     <ion-label class="ion-text-center">Up Next</ion-label>
@@ -187,7 +186,7 @@
 
                                 <!-- Song Thumbnail -->
                                 <ion-thumbnail slot="start" class="rounded-md overflow-hidden">
-                                    <img [src]="qSong.image[1]?.url" alt="Album Art">
+                                    <img [src]="qSong.imageUrl || qSong.image[1]?.url" alt="Album Art">
                                 </ion-thumbnail>
 
                                 <!-- Song Info -->

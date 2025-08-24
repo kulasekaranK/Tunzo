@@ -62,7 +62,7 @@
                 <p>Adjust audio resolution</p>
             </div>
 
-            <ion-select class="luxury-select" [(ngModel)]="selectedQuality" ngDefaultControl [ngModelOptions]="{standalone: true}" mode="ios" interface="action-sheet" (ionChange)="changeQuality($event)">
+            <ion-select class="luxury-select" [(ngModel)]="selectedQuality" mode="ios" interface="action-sheet" (ionChange)="changeQuality($event)">
                 <ion-select-option *ngFor="let option of qualityOptions" [value]="option.value">
                     {{ option.label }}
                 </ion-select-option>

@@ -1,16 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonSelectOption } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+import {
+  IonContent,
+  IonHeader,
+  IonSelect,
+  IonSelectOption} from '@ionic/angular/standalone';
 import { RouterLink, RouterModule } from '@angular/router';
-import { StreamSettings, StreamQuality } from 'tunzo-player'; 
+import { StreamSettings, StreamQuality } from 'tunzo-player';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
   styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, CommonModule, FormsModule, RouterLink, RouterModule, IonSelectOption, ReactiveFormsModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    RouterModule,
+    IonContent,
+    IonHeader,
+    IonSelect, // ✅ add this
+    IonSelectOption // ✅ keep this
+],
 })
 export class SettingsPage implements OnInit {
 
@@ -27,7 +40,7 @@ export class SettingsPage implements OnInit {
 
     const currentQuality = StreamSettings.loadQuality();
     
-    this.selectedQuality = currentQuality.value;
+    this.selectedQuality = currentQuality.value ? currentQuality.value : 2;
     console.log('Current Quality:', this.selectedQuality);
   }
 

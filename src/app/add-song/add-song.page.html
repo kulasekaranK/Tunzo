@@ -1,0 +1,106 @@
+<ion-header mode="ios" class="ion-no-border" translucent="true">
+    <ion-toolbar class="custom-header">
+
+        <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="dismiss()" class="close-btn">
+                <span class="material-icons">close</span>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="custom-content" fullscreen="true">
+    <ion-title>
+        <div class="header-content">
+            <span class="material-icons header-icon">music_note</span>
+            <div>
+                Upload New Track
+                <div class="subtitle">Share your music with the world</div>
+            </div>
+        </div>
+    </ion-title>
+    <div class="form-container">
+        <ion-list lines="none" class="custom-list">
+
+            <ion-item class="custom-item" disabled="true">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">fingerprint</span> Song ID
+                </ion-label>
+                <ion-input [(ngModel)]="song.id" placeholder="Unique identifier for your track" class="custom-input"></ion-input>
+            </ion-item>
+
+            <ion-item class="custom-item">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">library_music</span> Song Name
+                </ion-label>
+                <ion-input [(ngModel)]="song.name" placeholder="Enter your track title" class="custom-input"></ion-input>
+            </ion-item>
+
+            <ion-item class="custom-item">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">album</span> Album
+                </ion-label>
+                <ion-input [(ngModel)]="song.album" placeholder="Album name" class="custom-input"></ion-input>
+            </ion-item>
+
+            <ion-item class="custom-item">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">language</span> Language
+                </ion-label>
+                <ion-select [(ngModel)]="song.language" interface="popover" class="custom-select">
+                    <ion-select-option value="malayalam">Malayalam</ion-select-option>
+                    <ion-select-option value="tamil">Tamil</ion-select-option>
+                    <ion-select-option value="hindi">Hindi</ion-select-option>
+                    <ion-select-option value="english">English</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <div class="row">
+                <ion-item class="custom-item half-width">
+                    <ion-label position="stacked" class="input-label">
+                        <span class="material-icons">calendar_today</span> Year
+                    </ion-label>
+                    <ion-input type="number" [(ngModel)]="song.year" class="custom-input"></ion-input>
+                </ion-item>
+
+                <ion-item class="custom-item half-width">
+                    <ion-label position="stacked" class="input-label">
+                        <span class="material-icons">schedule</span> Duration (seconds)
+                    </ion-label>
+                    <ion-input type="number" [(ngModel)]="song.duration" class="custom-input"></ion-input>
+                </ion-item>
+            </div>
+
+            <ion-item class="custom-item">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">image</span> Cover Art URL
+                </ion-label>
+                <ion-input [(ngModel)]="song.imageUrl" placeholder="https://example.com/cover.jpg" class="custom-input"></ion-input>
+            </ion-item>
+
+            <ion-item class="custom-item" *ngFor="let d of song.downloadUrl; let i = index">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">download</span> {{ d.quality }} Quality URL
+                </ion-label>
+                <ion-input [(ngModel)]="song.downloadUrl[i].url" placeholder="https://example.com/track.mp3" class="custom-input"></ion-input>
+            </ion-item>
+
+            <ion-item class="custom-item">
+                <ion-label position="stacked" class="input-label">
+                    <span class="material-icons">person</span> Artists
+                </ion-label>
+                <ion-input [(ngModel)]="song.artists" placeholder="Artist names separated by commas" class="custom-input"></ion-input>
+            </ion-item>
+
+        </ion-list>
+
+        <ion-button expand="block" color="primary" shape="round" (click)="saveSong()" class="save-btn">
+            <span class="material-icons">cloud_upload</span> Upload Track
+        </ion-button>
+    </div>
+
+    <ion-loading [isOpen]="isSaving" message="Saving your track..." class="custom-loading"></ion-loading>
+
+    <ion-alert mode="ios" [isOpen]="showAlert" [header]="alertHeader" [message]="alertMessage" [buttons]="['OK']" (didDismiss)="showAlert = false" class="custom-alert">
+    </ion-alert>
+</ion-content>
