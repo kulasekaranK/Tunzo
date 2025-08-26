@@ -1,15 +1,17 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { IonContent, IonList, IonItem, IonLabel, IonNote, IonSkeletonText, IonPopover } from '@ionic/angular/standalone';
+import { IonContent, IonList, IonItem, IonLabel, IonNote, IonSkeletonText, IonPopover, IonButton } from '@ionic/angular/standalone';
 import {TunzoPlayerAPI,Player, StreamSettings} from 'tunzo-player';
 import { MusicControlsComponent } from "../components/controls/controls.page";
 import { FormsModule } from "@angular/forms";
 import { RouterLink, RouterModule } from '@angular/router';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [ IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
+  imports: [IonButton,  IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
     IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule],
 })
 export class Tab1Page implements OnInit {
@@ -21,11 +23,12 @@ export class Tab1Page implements OnInit {
   player = Player;
   loading = signal<boolean>(true);
 
-  constructor() {
-    this.loading.set(true);
-   
+  constructor( private notif: NotificationService) {
+   this.notif.scheduleBasic();
+   this.loading.set(true);
   }
  async ngOnInit(){
+  await LocalNotifications.requestPermissions();
    
     const resp: any =  await this.api.searchSongs('tamilhits');
     if(resp){
@@ -41,6 +44,24 @@ export class Tab1Page implements OnInit {
     Player.play(song)
   }
 
-
+ async callnoti(){
+      await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Tunzo Update!',
+          body: 'Tunzo current version is 1.0.26',
+          id: 1,
+          extra: {
+            data: 'goes here',
+          },
+          iconColor: '#0000FF',
+          sound: 'fav.wav',
+          schedule: { at: new Date(Date.now() + 1000 * 5),
+            allowWhileIdle: true
+           },
+        }
+      ]
+    });
+ }
   
 }
