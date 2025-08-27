@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
 
 def getVersionName() {
-    def packageJsonFile = rootProject.file('../package.json')
-    def packageJson = new groovy.json.JsonSlurper().parseText(packageJsonFile.text)
-    return packageJson.version
+    def packageJsonFile = file('../../package.json')
+    if (packageJsonFile.exists()) {
+        def packageJson = new groovy.json.JsonSlurper().parseText(packageJsonFile.text)
+        return packageJson.version ?: "1.0.0"
+    }
+    return "1.0.0"
 }
+
 
 android {
     namespace "tunzo.app.com"

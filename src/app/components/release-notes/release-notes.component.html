@@ -1,0 +1,12 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title>Version {{ releaseNotes.version }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-list inset="true">
+            <ion-item *ngFor="let note of releaseNotes.notes">
+                <ion-label>{{ note }}</ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card-content>
+</ion-card>

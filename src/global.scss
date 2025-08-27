@@ -112,3 +112,7 @@ ion-modal ion-content::part(background) {
     background: transparent;
     /* keep inner content transparent for glass effect */
 }
+
+.alert-pre-line .alert-message {
+  white-space: pre-line;
+}

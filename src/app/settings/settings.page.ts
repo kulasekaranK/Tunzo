@@ -9,6 +9,8 @@ import {
 import { RouterLink, RouterModule } from '@angular/router';
 import { StreamSettings, StreamQuality } from 'tunzo-player';
 
+import { ReleaseNotesComponent } from '../components/release-notes/release-notes.component';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.page.html',
@@ -22,7 +24,8 @@ import { StreamSettings, StreamQuality } from 'tunzo-player';
     IonContent,
     IonHeader,
     IonSelect, // ✅ add this
-    IonSelectOption // ✅ keep this
+    IonSelectOption, // ✅ keep this
+    ReleaseNotesComponent
 ],
 })
 export class SettingsPage implements OnInit {

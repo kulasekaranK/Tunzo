@@ -42,7 +42,7 @@ export class NotificationService {
       { title: "Tune in now.", body: "Open Tunzo for your daily dose of music." }
     ];
 
- const notificationTimes = [8, 10, 11, 12, 15, 17, 19, 21, 23]; // 8AM, 10AM, 11AM, 12PM, 3PM, 5PM, 7PM, 9PM, 11PM
+ const notificationTimes = [8, 10, 11, 12, 13, 15, 17, 19, 21, 23]; // 8AM, 10AM, 11AM, 12PM, 1PM, 3PM, 5PM, 7PM, 9PM, 11PM
     const notifications: LocalNotificationSchema[] = [];
 
     for (let i = 0; i < notificationTimes.length; i++) {
