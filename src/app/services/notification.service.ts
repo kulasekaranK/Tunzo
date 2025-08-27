@@ -42,7 +42,7 @@ export class NotificationService {
       { title: "Tune in now.", body: "Open Tunzo for your daily dose of music." }
     ];
 
-    const notificationTimes = [8, 11, 14, 18, 20, 24]; // 8 AM, 11 AM, 2 PM, 6 PM, 8 PM, 12 AM
+ const notificationTimes = [8, 10, 11, 12, 15, 17, 19, 21, 23]; // 8AM, 10AM, 11AM, 12PM, 3PM, 5PM, 7PM, 9PM, 11PM
     const notifications: LocalNotificationSchema[] = [];
 
     for (let i = 0; i < notificationTimes.length; i++) {
@@ -53,12 +53,9 @@ export class NotificationService {
         body: randomNotification.body,
         sound: 'fav.wav',
         schedule: {
-          on: {
-            hour: notificationTimes[i],
-            minute: 0
-          },
-          repeats: true,
-          allowWhileIdle: true
+          every: 'day',
+          at: new Date(new Date().setHours(notificationTimes[i], 0, 0, 0)),
+          allowWhileIdle: true,
         },
         extra: {
           data: 'goes here',

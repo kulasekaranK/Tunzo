@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterLink, RouterModule } from '@angular/router';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { NotificationService } from '../services/notification.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-tab1',
@@ -49,7 +50,7 @@ export class Tab1Page implements OnInit {
       notifications: [
         {
           title: 'Tunzo Update!',
-          body: 'Tunzo current version is 1.0.26',
+          body: `Tunzo current version is ${environment.appVersion}`,
           id: 1,
           extra: {
             data: 'goes here',
