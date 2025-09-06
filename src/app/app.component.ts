@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private notif: NotificationService,
     private alertController: AlertController,
     private releaseNotesService: ReleaseNotesService
-  ) {}
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await LocalNotifications.requestPermissions();
@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
       const releaseNotes = this.releaseNotesService.getReleaseNotes();
       const alert = await this.alertController.create({
         header: `Update ${releaseNotes.version}`,
-        message: releaseNotes.notes.join('<br>'),
-        mode: 'ios',
+        message: releaseNotes.notes.join('\n'),
         cssClass: 'alert-pre-line',
+        mode: 'ios',
         buttons: [
           {
             text: 'OK',
