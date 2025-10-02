@@ -14,4 +14,8 @@ export class YtmusicService {
   searchSongs(query: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.backendUrl}/search`, { params: { q: query } });
   }
+
+  getDownloadLink(videoId: string): Observable<any> {
+    return this.http.get<any>(`${this.backendUrl}/download`, { params: { videoId } });
+  }
 }

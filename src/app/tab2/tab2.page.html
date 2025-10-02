@@ -1,5 +1,13 @@
 <ion-header class="search-header ion-no-border" mode="ios" translucent="true">
     <ion-toolbar>
+        <ion-segment (ionChange)="segmentChanged($event)" value="tunzo">
+            <ion-segment-button value="tunzo">
+                <ion-label>Tunzo</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="youtube">
+                <ion-label>YouTube</ion-label>
+            </ion-segment-button>
+        </ion-segment>
     </ion-toolbar>
 </ion-header>
 

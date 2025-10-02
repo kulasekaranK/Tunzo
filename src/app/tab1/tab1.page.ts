@@ -41,42 +41,7 @@ export class Tab1Page implements OnInit {
   this.loading.set(false);
   }
 
-  private transformYtMusicResults(results: any[]): any[] {
-    return results.map(item => ({
-      id: item.videoId,
-      name: item.title,
-      image: item.thumbnails.map((t: any) => ({ url: t.url })),
-      artists: { primary: [{ name: item.artist }] },
-      playCount: null, // Not available from ytmusic-api
-      year: null, // Not available from ytmusic-api
-      copyright: null, // Not available from ytmusic-api
-    }));
-  }
-
-  async handleInput(event: any) {
-    const query = event.target.value.toLowerCase();
-    if (!query) {
-      this.results.set([]);
-      return;
-    }
-
-    this.loading.set(true);
-    let results: any = await this.api.searchSongs(query);
-
-    if (results && results.length > 0) {
-      this.results.set(results);
-      const currentQuality = StreamSettings.loadQuality();
-      Player.initialize(this.results(), currentQuality.value);
-    } else {
-      this.ytmusicService.searchSongs(query).subscribe(ytResults => {
-        this.results.set(this.transformYtMusicResults(ytResults));
-        // The player initialization might need to be adapted for the youtube music results
-        // For now, we are just displaying them.
-      });
-    }
-    this.loading.set(false);
-  }
-
+  
   playSong(song: any) {
     Player.unlockAudio();
     Player.play(song)
