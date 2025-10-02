@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class YtmusicService {
-  private backendUrl = 'http://localhost:3000'; // Replace with your backend URL
+  // TODO: Replace with your deployed server URL
+  private backendUrl = 'https://tunzo-server.onrender.com'; // Replace with your backend URL
 
   constructor(private http: HttpClient) { }
 

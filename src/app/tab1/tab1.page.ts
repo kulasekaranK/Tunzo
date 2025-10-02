@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { IonContent, IonList, IonItem, IonLabel, IonNote, IonSkeletonText, IonPopover, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonList, IonItem, IonLabel, IonNote, IonSkeletonText, IonPopover, IonButton, IonSearchbar } from '@ionic/angular/standalone';
 import {TunzoPlayerAPI,Player, StreamSettings} from 'tunzo-player';
 import { MusicControlsComponent } from "../components/controls/controls.page";
 import { FormsModule } from "@angular/forms";
@@ -14,7 +14,7 @@ import { YtmusicService } from '../services/ytmusic.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   imports: [IonButton,  IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
-    IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule],
+    IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule, IonSearchbar],
 })
 export class Tab1Page implements OnInit {
   results = signal<any>([]);
@@ -23,25 +23,60 @@ export class Tab1Page implements OnInit {
   error:any;
   api = new TunzoPlayerAPI();
   player = Player;
-  loading = signal<boolean>(true);
+  loading = signal<boolean>(false);
 
   constructor( private notif: NotificationService, private ytmusicService: YtmusicService) {
    this.notif.scheduleBasic();
-   this.loading.set(true);
   }
  async ngOnInit(){
   await LocalNotifications.requestPermissions();
-   
-    this.ytmusicService.searchSongs('tamil hits').subscribe(resp => {
-      if(resp){
-        this.results.set(resp);
-        console.log(this.results()); 
-        // const currentQuality = StreamSettings.loadQuality();
-        // Player.initialize(this.results(), currentQuality.value);
-      }
-      this.loading.set(false);
-    });
+  this.loading.set(true);
+  const resp: any =  await this.api.searchSongs('tamil hits');
+  if(resp){
+    this.results.set(resp);
+    console.log(this.results()); 
+    const currentQuality = StreamSettings.loadQuality();
+    Player.initialize(this.results(), currentQuality.value);
   }
+  this.loading.set(false);
+  }
+
+  private transformYtMusicResults(results: any[]): any[] {
+    return results.map(item => ({
+      id: item.videoId,
+      name: item.title,
+      image: item.thumbnails.map((t: any) => ({ url: t.url })),
+      artists: { primary: [{ name: item.artist }] },
+      playCount: null, // Not available from ytmusic-api
+      year: null, // Not available from ytmusic-api
+      copyright: null, // Not available from ytmusic-api
+    }));
+  }
+
+  async handleInput(event: any) {
+    const query = event.target.value.toLowerCase();
+    if (!query) {
+      this.results.set([]);
+      return;
+    }
+
+    this.loading.set(true);
+    let results: any = await this.api.searchSongs(query);
+
+    if (results && results.length > 0) {
+      this.results.set(results);
+      const currentQuality = StreamSettings.loadQuality();
+      Player.initialize(this.results(), currentQuality.value);
+    } else {
+      this.ytmusicService.searchSongs(query).subscribe(ytResults => {
+        this.results.set(this.transformYtMusicResults(ytResults));
+        // The player initialization might need to be adapted for the youtube music results
+        // For now, we are just displaying them.
+      });
+    }
+    this.loading.set(false);
+  }
+
   playSong(song: any) {
     Player.unlockAudio();
     Player.play(song)
