@@ -2,7 +2,8 @@
   <div class="profile-container" *ngIf="user">
     <div class="profile-header">
         <div class="avatar-section">
-          <div class="profile-avatar" [style.background-color]="getAvatarColor()">
+          <img *ngIf="user.photoURL" [src]="user.photoURL" class="profile-avatar-image" alt="Profile Picture">
+          <div *ngIf="!user.photoURL" class="profile-avatar" [style.background-color]="getAvatarColor()">
             <span class="avatar-text">{{ getInitials() }}</span>
           </div>
         </div>

@@ -5,6 +5,8 @@ import { IonicModule, LoadingController, AlertController, ToastController } from
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Capacitor } from '@capacitor/core';
+import { addIcons } from 'ionicons';
+import { musicalNotes, warning, close, mail, lockClosed, eyeOff, eye, logIn, logoGoogle, logoApple, bug } from 'ionicons/icons';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +37,7 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    addIcons({ musicalNotes, warning, close, mail, lockClosed, eyeOff, eye, logIn, logoGoogle, logoApple, bug });
   }
 
   ngOnInit() {

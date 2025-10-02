@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { User } from '@angular/fire/auth';
+import { addIcons } from 'ionicons';
+import { logOutOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +19,9 @@ export class ProfilePage implements OnInit {
   constructor(
     private authService: AuthService,
     private alertController: AlertController
-  ) { }
+  ) {
+    addIcons({ logOutOutline });
+  }
 
   ngOnInit() {
     this.authService.user$.subscribe(user => {
@@ -72,6 +76,7 @@ export class ProfilePage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Sign Out',
       message: 'Are you sure you want to sign out?',
+      cssClass: 'custom-dark-alert',
       buttons: [
         {
           text: 'Cancel',
