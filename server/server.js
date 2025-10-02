@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { YTMusic } = require('ytmusic-api');
+const YTMusic = require('ytmusic-api');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,10 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 const ytmusic = new YTMusic();
-
-ytmusic.initialize().then(() => {
-  console.log('YTMusic API initialized');
-});
 
 app.get('/search', async (req, res) => {
   const query = req.query.q;
@@ -29,6 +25,15 @@ app.get('/search', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+(async () => {
+  try {
+    await ytmusic.initialize();
+    console.log('YTMusic API initialized');
+    app.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Failed to initialize YTMusic API:', error);
+    process.exit(1);
+  }
+})();
