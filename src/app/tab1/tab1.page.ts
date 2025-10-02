@@ -7,6 +7,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { NotificationService } from '../services/notification.service';
 import { environment } from '../../environments/environment';
+import { YtmusicService } from '../services/ytmusic.service';
 
 @Component({
   selector: 'app-tab1',
@@ -24,21 +25,22 @@ export class Tab1Page implements OnInit {
   player = Player;
   loading = signal<boolean>(true);
 
-  constructor( private notif: NotificationService) {
+  constructor( private notif: NotificationService, private ytmusicService: YtmusicService) {
    this.notif.scheduleBasic();
    this.loading.set(true);
   }
  async ngOnInit(){
   await LocalNotifications.requestPermissions();
    
-    const resp: any =  await this.api.searchSongs('tamilhits');
-    if(resp){
-      this.results.set(resp);
-      console.log(this.results()); 
-          const currentQuality = StreamSettings.loadQuality();
-      Player.initialize(this.results(), currentQuality.value);
-    }
+    this.ytmusicService.searchSongs('tamil hits').subscribe(resp => {
+      if(resp){
+        this.results.set(resp);
+        console.log(this.results()); 
+        // const currentQuality = StreamSettings.loadQuality();
+        // Player.initialize(this.results(), currentQuality.value);
+      }
       this.loading.set(false);
+    });
   }
   playSong(song: any) {
     Player.unlockAudio();
