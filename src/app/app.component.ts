@@ -6,7 +6,7 @@ import { ReleaseNotesService } from './services/release-notes.service';
 import { NotificationService } from './services/notification.service';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
-
+import { FirestoreService } from './services/saavn.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -19,8 +19,15 @@ export class AppComponent implements OnInit {
     private alertController: AlertController,
     private releaseNotesService: ReleaseNotesService,
     private authService: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private firestoreService: FirestoreService
+  ) {
+    this.initializeApp();
+  }
+
+  async initializeApp() {
+    await this.firestoreService.initDB();
+  }
 
   async ngOnInit(): Promise<void> {
     await LocalNotifications.requestPermissions();

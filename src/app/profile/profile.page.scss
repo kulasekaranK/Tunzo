@@ -1,14 +1,14 @@
 /* General Styles */
 :host {
-  --profile-header-background: var(--ion-color-step-100, #f9f9f9);
-  --profile-card-background: var(--ion-color-step-150, #ffffff);
-  --profile-text-color: var(--ion-text-color, #000000);
-  --profile-text-secondary-color: var(--ion-color-step-600, #666666);
-  --profile-border-color: var(--ion-color-step-250, #eeeeee);
+  --profile-header-background: var(--ion-color-step-100, #181818);
+  --profile-card-background: var(--ion-color-step-150, #252525);
+  --profile-text-color: var(--ion-text-color, #e0e0e0);
+  --profile-text-secondary-color: var(--ion-color-step-600, #c4c4c4);
+  --profile-border-color: var(--ion-color-step-250, #2b2b2b);
 }
 
 .profile-content {
-  --background: var(--ion-color-step-50, #f5f5f5);
+  --background: var(--ion-color-step-50, #1a1a1a);
 }
 
 .profile-container {
@@ -54,7 +54,7 @@
 .avatar-text {
   font-size: 2rem;
   font-weight: bold;
-  color: white;
+  color: rgb(94, 94, 94);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 

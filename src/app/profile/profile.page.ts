@@ -76,6 +76,7 @@ export class ProfilePage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Sign Out',
       message: 'Are you sure you want to sign out?',
+      mode: 'ios',
       cssClass: 'custom-dark-alert',
       buttons: [
         {
