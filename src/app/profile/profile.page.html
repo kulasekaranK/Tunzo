@@ -1,0 +1,74 @@
+<ion-content class="profile-content">
+  <div class="profile-container" *ngIf="user">
+    <div class="profile-header">
+        <div class="avatar-section">
+          <div class="profile-avatar" [style.background-color]="getAvatarColor()">
+            <span class="avatar-text">{{ getInitials() }}</span>
+          </div>
+        </div>
+        <h1 class="profile-name">{{ user.displayName || getUserDisplayName() }}</h1>
+        <p class="profile-email">{{ user.email }}</p>
+    </div>
+
+    <div class="profile-info">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Account Information</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="info-item">
+            <ion-label>
+              <h3>Display Name</h3>
+              <p>{{ user.displayName || 'Not provided' }}</p>
+            </ion-label>
+          </div>
+          
+          <div class="info-item">
+            <ion-label>
+              <h3>Email</h3>
+              <p>{{ user.email }}</p>
+            </ion-label>
+          </div>
+          
+          <div class="info-item">
+            <ion-label>
+              <h3>Email Verified</h3>
+              <p>{{ user.emailVerified ? 'Yes' : 'No' }}</p>
+            </ion-label>
+          </div>
+          
+          <div class="info-item">
+            <ion-label>
+              <h3>Account Created</h3>
+              <p>{{ user.metadata.creationTime | date:'medium' }}</p>
+            </ion-label>
+          </div>
+          
+          <div class="info-item">
+            <ion-label>
+              <h3>Last Sign In</h3>
+              <p>{{ user.metadata.lastSignInTime | date:'medium' }}</p>
+            </ion-label>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="profile-actions">
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="danger"
+        (click)="signOut()"
+        class="signout-btn">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Sign Out
+      </ion-button>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="!user">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading profile...</p>
+  </div>
+</ion-content>

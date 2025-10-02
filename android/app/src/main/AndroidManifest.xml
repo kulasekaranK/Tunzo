@@ -27,6 +27,16 @@
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- Firebase Authentication -->
+        <meta-data
+            android:name="com.google.firebase.auth.APP_ID"
+            android:value="1:622086667091:web:71fdfea798fd82cc0bbfa6" />
+        
+        <!-- Google Sign-In -->
+        <meta-data
+            android:name="com.google.android.gms.auth.APP_ID"
+            android:value="1:622086667091:web:71fdfea798fd82cc0bbfa6" />
     </application>
 
     <!-- Permissions -->

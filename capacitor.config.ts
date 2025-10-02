@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'tunzo.app.com',
+  appId: 'com.max.tunzo',
   appName: 'Tunzo',
   webDir: 'www',
    plugins: {
@@ -10,6 +10,10 @@ const config: CapacitorConfig = {
       iconColor: '#488AFF',
       sound: 'fav.wav'
     },
+    FirebaseAuthentication: {
+      skipNativeAuth: false,
+      providers: ["google.com", "apple.com"]
+    }
   },
 };
 

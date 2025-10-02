@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">Tunzo</string>
     <string name="title_activity_main">Tunzo</string>
-    <string name="package_name">tunzo.app.com</string>
-    <string name="custom_url_scheme">tunzo.app.com</string>
+    <string name="package_name">com.max.tunzo</string>
+    <string name="custom_url_scheme">com.max.tunzo</string>
 </resources>

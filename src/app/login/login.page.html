@@ -1,0 +1,189 @@
+<ion-content class="premium-login-content">
+  <!-- Background Animation -->
+  <div class="background-animation">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="login-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="logo-container">
+        <div class="logo-wrapper">
+          <ion-icon name="musical-notes" class="logo-icon"></ion-icon>
+          <div class="logo-glow"></div>
+        </div>
+        <h1 class="app-title">Tunzo</h1>
+        <p class="app-subtitle">Your Premium Music Experience</p>
+      </div>
+    </div>
+
+    <!-- Error Display -->
+    <div class="error-section" *ngIf="errorMessage">
+      <div class="error-card">
+        <div class="error-icon">
+          <ion-icon name="warning" color="danger"></ion-icon>
+        </div>
+        <div class="error-content">
+          <h3>Authentication Error</h3>
+          <p>{{ errorMessage }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Debug Information -->
+    <div class="debug-section" *ngIf="debugInfo">
+      <div class="debug-card">
+        <div class="debug-header">
+          <h4>Debug Information</h4>
+          <ion-button fill="clear" size="small" (click)="clearDebug()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </div>
+        <div class="debug-content">
+          <pre>{{ debugInfo }}</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authentication Options -->
+    <div class="auth-section">
+      <!-- Email/Password Form -->
+      <div class="form-container" *ngIf="!isLoading">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <!-- Email Input -->
+          <div class="input-group">
+            <div class="input-wrapper">
+              <ion-icon name="mail" class="input-icon"></ion-icon>
+              <ion-input 
+                type="email" 
+                formControlName="email"
+                placeholder="Enter your email"
+                class="premium-input">
+              </ion-input>
+            </div>
+            <div class="error-text" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+              <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-group">
+            <div class="input-wrapper">
+              <ion-icon name="lock-closed" class="input-icon"></ion-icon>
+              <ion-input 
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                class="premium-input">
+              </ion-input>
+              <ion-button 
+                fill="clear" 
+                size="small"
+                (click)="togglePasswordVisibility()"
+                class="password-toggle">
+                <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+              </ion-button>
+            </div>
+            <div class="error-text" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
+              <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+            </div>
+          </div>
+
+          <!-- Forgot Password -->
+          <div class="forgot-password" *ngIf="isLoginMode">
+            <ion-button fill="clear" size="small" (click)="resetPassword()">
+              Forgot Password?
+            </ion-button>
+          </div>
+
+          <!-- Submit Button -->
+          <ion-button 
+            expand="block" 
+            type="submit"
+            [disabled]="loginForm.invalid"
+            class="premium-submit-btn">
+            <ion-icon name="log-in" slot="start"></ion-icon>
+            {{ isLoginMode ? 'Sign In' : 'Create Account' }}
+          </ion-button>
+        </form>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="loading-spinner">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+        <p class="loading-text">{{ loadingMessage }}</p>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider-section" *ngIf="!isLoading">
+        <div class="divider-line"></div>
+        <span class="divider-text">or continue with</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Social Login Buttons -->
+      <div class="social-login-section" *ngIf="!isLoading">
+        <!-- Google Sign-In -->
+        <ion-button 
+          expand="block" 
+          fill="outline"
+          (click)="signInWithGoogle()"
+          class="google-btn">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Continue with Google
+        </ion-button>
+
+        <!-- Apple Sign-In (if available) -->
+        <ion-button 
+          expand="block" 
+          fill="outline"
+          (click)="signInWithApple()"
+          class="apple-btn">
+          <ion-icon name="logo-apple" slot="start"></ion-icon>
+          Continue with Apple
+        </ion-button>
+      </div>
+
+      <!-- Toggle Mode -->
+      <div class="toggle-section" *ngIf="!isLoading">
+        <p class="toggle-text">
+          {{ isLoginMode ? "Don't have an account?" : "Already have an account?" }}
+        </p>
+        <ion-button fill="clear" (click)="toggleMode()" class="toggle-btn">
+          {{ isLoginMode ? 'Sign Up' : 'Sign In' }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Test Section -->
+    <div class="test-section" *ngIf="!isLoading">
+      <ion-button 
+        expand="block" 
+        fill="clear" 
+        size="small"
+        (click)="testConnection()"
+        class="test-btn">
+        <ion-icon name="bug" slot="start"></ion-icon>
+        Test Connection
+      </ion-button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-section">
+      <p class="terms-text">
+        By using Tunzo, you agree to our Terms of Service and Privacy Policy
+      </p>
+    </div>
+  </div>
+</ion-content>

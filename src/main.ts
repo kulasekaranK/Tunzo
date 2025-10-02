@@ -14,6 +14,8 @@ import { provideStorage } from '@angular/fire/storage';
 import { provideFirebaseApp } from '@angular/fire/app';
 import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
+import { provideAuth, getAuth, initializeAuth, indexedDBLocalPersistence } from '@angular/fire/auth';
+import { Capacitor } from '@capacitor/core';
 
 const firebaseApp =  initializeApp({
   apiKey: "AIzaSyAOzJLEoMIBLiYsEWFbI_OYuyux5bH2kgI",
@@ -39,6 +41,15 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(),
       provideFirebaseApp(() => firebaseApp),
+    provideAuth(() => {
+      if (Capacitor.isNativePlatform()) {
+        return initializeAuth(firebaseApp, {
+          persistence: indexedDBLocalPersistence,
+        });
+      } else {
+        return getAuth(firebaseApp);
+      }
+    }),
     provideFirestore(() => getFirestore(firebaseApp)),
     provideStorage(() => getStorage(firebaseApp)),
     provideMessaging(()=>getMessaging()),

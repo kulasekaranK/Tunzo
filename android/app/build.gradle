@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 
 
 android {
-    namespace "tunzo.app.com"
+    namespace "com.max.tunzo"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "tunzo.app.com"
+        applicationId "com.max.tunzo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
