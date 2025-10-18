@@ -1,0 +1,64 @@
+<ion-content class="liked-songs-content" fullscreen="true" mode="ios">
+    <!-- Premium Header -->
+    <div class="header-container">
+        <div class="header-overlay"></div>
+        <div class="header-content">
+            <h1 class="header-title">Liked Videos</h1>
+            <p class="song-count">
+                You've liked {{ likedVideos.length || 0 }} videos.
+            </p>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    @if (likedVideosLoading()) {
+    <div class="skeleton-loader">
+        @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+        <div class="skeleton-item">
+            <div class="skeleton-number"></div>
+            <div class="skeleton-art"></div>
+            <div class="skeleton-details">
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line short"></div>
+            </div>
+            <div class="skeleton-actions">
+                <div class="skeleton-icon"></div>
+                <div class="skeleton-icon"></div>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <!-- Premium Song List -->
+    <div class="song-list">
+        @for (video of likedVideos; let i = $index; track video.id) {
+        <div class="song-item">
+            <div class="song-number">{{ likedVideos.length - i }}</div>
+
+            <div class="album-art">
+                <img [src]="video?.image[0]?.url" alt="Video thumbnail" class="art-image" />
+            </div>
+
+            <div class="song-details">
+                <h3 class="song-title">{{ video?.name }}</h3>
+                <p class="song-info">{{ video?.artists?.primary[0]?.name }}</p>
+            </div>
+
+            <div class="song-actions">
+                <button class="play-btn queue-btn" (click)="$event.stopPropagation(); unlikeVideo(video)">
+                    <span class="material-icons liked">favorite</span>
+                </button>
+            </div>
+        </div>
+        } @empty { @if(likedVideos.length === 0) {
+        <div class="no-songs">
+            <p>You haven't liked any videos yet.</p>
+        </div>
+        } }
+    </div>
+    }
+</ion-content>
+
+@if(player.getCurrentSong()) {
+<app-music-controls></app-music-controls>
+}

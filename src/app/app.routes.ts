@@ -15,5 +15,13 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/tabs/tab1',
     pathMatch: 'full'
+  },
+  {
+    path: 'liked-songs',
+    loadComponent: () => import('./app/liked-songs/liked-songs.page').then( m => m.LikedSongsPage)
+  },
+  {
+    path: 'liked-videos',
+    loadComponent: () => import('./app/liked-videos/liked-videos.page').then( m => m.LikedVideosPage)
   }
 ];

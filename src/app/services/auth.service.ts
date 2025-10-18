@@ -11,6 +11,8 @@ import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
+  private isLoadingSubject = new BehaviorSubject<boolean>(true);
+  public isLoading$ = this.isLoadingSubject.asObservable();
 
   constructor(
     private auth: Auth,
@@ -19,6 +21,7 @@ export class AuthService {
     // Listen to auth state changes
     onAuthStateChanged(this.auth, (user) => {
       this.userSubject.next(user);
+      this.isLoadingSubject.next(false);
     });
   }
 

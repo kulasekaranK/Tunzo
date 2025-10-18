@@ -5,37 +5,34 @@ import { CommonModule } from '@angular/common';
 import { Player } from 'tunzo-player';
 import { MusicControlsComponent } from "../components/controls/controls.page";
 import { AddSongPage } from '../add-song/add-song.page';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss'],
+  selector: 'app-liked-songs',
+  templateUrl: './liked-songs.page.html',
+  styleUrls: ['./liked-songs.page.scss'],
+  standalone: true,
   imports: [IonButton, IonFabButton, IonFab, 
     IonContent, CommonModule,
     MusicControlsComponent
 ],
 })
-export class Tab3Page implements OnDestroy {
+export class LikedSongsPage implements OnDestroy {
   songs: any[] = [];
   subscribe: any;
-  subscribeVideos: any;
+  likedSongLoading = signal<boolean>(true);
   homePageSongs: any[] = [];
-  likedVideos: any[] = [];
   player = Player
  constructor(
     private firebaseService: FirestoreService,
     private cdr: ChangeDetectorRef,
-    private modalCtrl: ModalController,
-    private router: Router
+    private modalCtrl: ModalController
   ) {
     this.subscribe = this.firebaseService.getCollectionData('likedSongs').subscribe((data: any[]) => {
       this.homePageSongs = data || [];
-      this.cdr.detectChanges();
-    });
-
-    this.subscribeVideos = this.firebaseService.likedVideos$.subscribe((data: any[]) => {
-      this.likedVideos = data || [];
+      this.likedSongLoading.set(false);
+      if (data && data.length) {
+        this.player.initialize(data);
+      }
       this.cdr.detectChanges();
     });
   }
@@ -44,19 +41,7 @@ export class Tab3Page implements OnDestroy {
     if (this.subscribe) {
       this.subscribe.unsubscribe();
     }
-    if (this.subscribeVideos) {
-      this.subscribeVideos.unsubscribe();
-    }
   }
-
-  goToLikedSongs() {
-    this.router.navigate(['/liked-songs']);
-  }
-
-  goToLikedVideos() {
-    this.router.navigate(['/liked-videos']);
-  }
-
     async openAddSongModal() {
     const modal = await this.modalCtrl.create({
       component: AddSongPage,

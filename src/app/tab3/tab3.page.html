@@ -1,89 +1,43 @@
-<ion-content class="liked-songs-content" fullscreen="true" mode="ios">
-    <!-- Premium Header -->
-    <div class="header-container">
-        <div class="header-overlay"></div>
-        <div class="header-content">
-            <h1 class="header-title">Liked Songs</h1>
-            <p class="song-count">
-                You've liked {{ homePageSongs.length || 0 }} songs — your personal favorites, all in one place.
-            </p>
-        </div>
+<ion-content class="library-content" fullscreen="true" mode="ios">
+  <!-- Header -->
+  <div class="header-container">
+    <div class="header-overlay"></div>
+    <div class="header-content">
+      <h1 class="header-title">Your Library</h1>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="library-items">
+    <div class="list-item" (click)="goToLikedSongs()">
+      <div class="item-icon">
+        <span class="material-icons">favorite</span>
+      </div>
+      <div class="item-details">
+        <h3 class="item-title">Liked Songs</h3>
+        <p class="item-subtitle">{{ homePageSongs.length }} songs</p>
+      </div>
+      <div class="item-arrow">
+        <span class="material-icons">chevron_right</span>
+      </div>
     </div>
 
-    <!-- Loader -->
-    @if (likedSongLoading()) {
-    <div class="skeleton-loader">
-        @for (item of [1,2,3,4,5,6,7,8]; track $index) {
-        <div class="skeleton-item">
-            <div class="skeleton-number"></div>
-            <div class="skeleton-art"></div>
-            <div class="skeleton-details">
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line short"></div>
-            </div>
-            <div class="skeleton-actions">
-                <div class="skeleton-icon"></div>
-                <div class="skeleton-icon"></div>
-            </div>
-        </div>
-        }
+    <div class="list-item" (click)="goToLikedVideos()">
+      <div class="item-icon">
+        <span class="material-icons">video_library</span>
+      </div>
+      <div class="item-details">
+        <h3 class="item-title">Liked Videos</h3>
+        <p class="item-subtitle">{{ likedVideos.length }} videos</p>
+      </div>
+      <div class="item-arrow">
+        <span class="material-icons">chevron_right</span>
+      </div>
     </div>
-    } @else {
-    <!-- Premium Song List -->
-    <div class="song-list">
-        @for (song of homePageSongs; let i = $index; track song.id) {
-        <div class="song-item" [class.playing]="player.getCurrentSong()?.id === song?.id" (click)="player.play(song)">
-            <div class="song-number">{{ homePageSongs.length - i }}</div>
-
-            <div class="album-art">
-                <img [src]="song?.imageUrl || song?.image[1]?.url" alt="Album cover" class="art-image" />
-
-                <!-- Overlay with play/pause icon -->
-                <div class="art-overlay" *ngIf="player.getCurrentSong()?.id === song?.id">
-                    <ng-container *ngIf="player.isPlayingSong(); else showPause">
-                        <!-- Playing (show pause icon) -->
-                        <svg class="play-icon" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
-      </svg>
-                    </ng-container>
-                    <ng-template #showPause>
-                        <!-- Not playing (show play icon) -->
-                        <svg class="pause-icon" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-      </svg>
-                    </ng-template>
-                </div>
-            </div>
-
-
-            <div class="song-details">
-                <h3 class="song-title">{{ song?.name }}</h3>
-                <p class="song-info">{{ song?.album?.name }} • {{ song?.year }}</p>
-            </div>
-
-            <div class="song-actions">
-
-                <button class="play-btn queue-btn" (click)="$event.stopPropagation(); player.addToQueue(song)">
-                    <span class="material-icons">queue_music</span>
-                </button>
-            </div>
-        </div>
-        } @empty { @if(homePageSongs.length === 0) {
-        <div class="no-songs">
-            <p>You haven't liked any songs yet.</p>
-            <p>Start exploring and add your favorites!</p>
-        </div>
-        } }
-    </div>
-    }
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button (click)="openAddSongModal()">
-            <span class="material-icons">add</span>
-        </ion-fab-button>
-    </ion-fab>
+  </div>
 
 </ion-content>
 
 @if(player.getCurrentSong()) {
-<app-music-controls></app-music-controls>
+  <app-music-controls></app-music-controls>
 }

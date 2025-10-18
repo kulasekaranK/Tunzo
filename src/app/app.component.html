@@ -1,3 +1,8 @@
 <ion-app>
+  <ng-container *ngIf="(authService.isLoading$ | async); else loaded">
+    <app-auth-loader></app-auth-loader>
+  </ng-container>
+  <ng-template #loaded>
     <ion-router-outlet></ion-router-outlet>
+  </ng-template>
 </ion-app>

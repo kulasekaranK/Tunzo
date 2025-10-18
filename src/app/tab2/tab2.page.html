@@ -1,85 +1,122 @@
 <ion-header class="search-header ion-no-border" mode="ios" translucent="true">
-    <ion-toolbar>
-        <ion-segment (ionChange)="segmentChanged($event)" value="tunzo">
-            <ion-segment-button value="tunzo">
-                <ion-label>Tunzo</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="youtube">
-                <ion-label>YouTube</ion-label>
-            </ion-segment-button>
-        </ion-segment>
-    </ion-toolbar>
+  <ion-toolbar>
+
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="search-page" fullscreen="true">
 
-    <!-- Hero Section -->
-    <div class="hero-text">
-        <h1>Discover Music</h1>
-        <p>Find your favorite tracks, albums & artists</p>
-    </div>
+  <!-- Hero Section -->
+  <div class="hero-text">
+    <h1>Discover Music</h1>
+    <p>Find your favorite tracks, albums & artists</p>
+  </div>
 
-    <!-- Search Bar -->
-    <ion-searchbar placeholder="Search songs, albums, or artists..." debounce="400" [(ngModel)]="searchQuery" class="modern-searchbar">
-    </ion-searchbar>
+  <!-- Search Bar -->
+  <ion-searchbar placeholder="Search songs, albums, or artists..." debounce="400" [(ngModel)]="searchQuery"
+    class="modern-searchbar">
+  </ion-searchbar>
 
-    <!-- Category Chips -->
-    <div class="chip-row ion-margin">
-        @for (chip of chips; track chip) {
-        <div class="chip" (click)="selectChip(chip)">
-            <span>{{ chip }}</span>
-        </div>
-        }
-    </div>
-
-    <!-- Loading -->
-    @if (loading()) {
-    <div class="ion-text-center">
-        <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+  <!-- Category Chips -->
+  <div class="chip-row ion-margin">
+    @for (chip of chips; track chip) {
+    <div class="chip" (click)="selectChip(chip)">
+      <span>{{ chip }}</span>
     </div>
     }
+  </div>
+  <div class="ion-padding">
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="searchSource" value="tunzo">
+        <ion-segment-button value="tunzo">
+          <ion-label>Tunzo</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="youtube">
+          <ion-label>YouTube</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+  </div>
 
-    <!-- Results -->
-    @if (results().length) {
-    <div class="results-list ion-padding">
-        <h2 class="section-title">Results</h2>
-        @for (song of results(); track song.id) {
-        <div class="song-row">
-            <!-- Album Cover -->
-            <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover" />
+  <!-- Loading -->
+  @if (loading()) {
+  <div class="ion-text-center">
+    <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+  </div>
+  }
 
-            <!-- Song Details -->
-            <div class="details">
-                <h3 class="title">{{ song.name }}</h3>
-                <p class="subtitle">{{ song.album?.name }}</p>
-                <ion-note>{{ song.year }}</ion-note>
-            </div>
+  <!-- Tunzo Results -->
+  @if (searchSource === 'tunzo') {
+  @if (results().length > 0) {
+  <div class="results-list ion-padding">
+    <h2 class="section-title">Results</h2>
+    @for (song of results(); track song.id) {
+    <div class="song-row">
+      <!-- Album Cover -->
+      <img [src]="song.image?.[1]?.url || song.image?.[0]?.url" alt="cover" />
 
-            <!-- Play Button -->
-            <button class="play-btn" (click)="playSong(song)">
-          <span class="material-icons">play_arrow</span>
-        </button>
+      <!-- Song Details -->
+      <div class="details">
+        <h3 class="title">{{ song.name }}</h3>
+        <p class="subtitle">{{ song.album?.name }}</p>
+        <ion-note>{{ song.year }}</ion-note>
+      </div>
 
-            <!-- Add to Queue Button -->
-            <button class="play-btn queue-btn" (click)="addToQueue(song)">
-          <span class="material-icons">queue_music</span>
-        </button>
-        </div>
-        }
+      <!-- Play Button -->
+      <button class="play-btn" (click)="playSong(song)">
+        <span class="material-icons">play_arrow</span>
+      </button>
+
+      <!-- Add to Queue Button -->
+      <button class="play-btn queue-btn" (click)="addToQueue(song)">
+        <span class="material-icons">queue_music</span>
+      </button>
     </div>
-    } @else {
-    <div class="empty-state ion-padding">
-        <span class="material-icons" style="font-size: 40px; color: #9e9e9e;">
-    search_off
-  </span>
-
-        <h3>No songs found</h3>
-        <p>Try searching with another keyword or explore trending music.</p>
-    </div>
-
     }
+  </div>
+  } @else if (!loading()) {
+  <div class="empty-state ion-padding">
+    <span class="material-icons" style="font-size: 40px; color: #9e9e9e;">
+      search_off
+    </span>
+
+    <h3>No songs found</h3>
+    <p>Try searching with another keyword or explore trending music.</p>
+  </div>
+  }
+  }
+
+  <!-- YouTube Results -->
+  @if (searchSource === 'youtube') {
+  @if (videoResults().length > 0) {
+  <div class="results-list ion-padding">
+    <h2 class="section-title">Videos</h2>
+    @for (videoItem of videoResults(); track videoItem.video.id) {
+    <div class="video-container">
+      <iframe width="100%" height="200" [src]="videoItem.safeUrl" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+      <div class="video-actions">
+        <button class="action-btn" (click)="toggleLike(videoItem)">
+          <span class="material-icons" [class.liked]="videoItem.isLiked">
+            {{ videoItem.isLiked ? 'favorite' : 'favorite_border' }}
+          </span>
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+  } @else if (!loading()) {
+  <div class="empty-state ion-padding">
+    <span class="material-icons" style="font-size: 40px; color: #9e9e9e;">
+      smart_display
+    </span>
+
+    <h3>No videos found</h3>
+    <p>Try searching with another keyword.</p>
+  </div>
+  }
+  }
 </ion-content>
 
-@if (player.getCurrentSong()) {
+@if (player.getCurrentSong() && searchSource === 'tunzo') {
 <app-music-controls></app-music-controls>
 }

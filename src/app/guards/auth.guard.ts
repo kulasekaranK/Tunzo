@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable, map, take } from 'rxjs';
+import { Observable, map, skipWhile, take } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -13,10 +13,11 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.authService.user$.pipe(
+    return this.authService.isLoading$.pipe(
+      skipWhile(isLoading => isLoading),
       take(1),
-      map(user => {
-        if (user) {
+      map(() => {
+        if (this.authService.isAuthenticated()) {
           return true;
         } else {
           this.router.navigate(['/login']);

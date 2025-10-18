@@ -27,6 +27,9 @@ export class FirestoreService {
   private likedSongsSubject = new BehaviorSubject<any[]>([]);
   likedSongs$ = this.likedSongsSubject.asObservable();
 
+  private likedVideosSubject = new BehaviorSubject<any[]>([]);
+  likedVideos$ = this.likedVideosSubject.asObservable();
+
   constructor(private firestore: Firestore) {
     this.sqlite = new SQLiteConnection(CapacitorSQLite);
   }
@@ -51,6 +54,13 @@ export class FirestoreService {
     `);
 
     await this.db.execute(`
+      CREATE TABLE IF NOT EXISTS liked_videos (
+        id TEXT PRIMARY KEY,
+        video TEXT
+      );
+    `);
+
+    await this.db.execute(`
       CREATE TABLE IF NOT EXISTS quality (
         id TEXT PRIMARY KEY,
         value INTEGER,
@@ -60,11 +70,17 @@ export class FirestoreService {
 
     this.dbInitialized = true;
     await this.updateLikedSongsStream();
+    await this.updateLikedVideosStream();
   }
 
   private async updateLikedSongsStream() {
     const likedSongs = await this.getLikedSongsFromDb();
     this.likedSongsSubject.next(likedSongs);
+  }
+
+  private async updateLikedVideosStream() {
+    const likedVideos = await this.getLikedVideosFromDb();
+    this.likedVideosSubject.next(likedVideos);
   }
 
   // ============================================================
@@ -123,6 +139,9 @@ export class FirestoreService {
     if (collectionName === 'likedSongs') {
       return this.likedSongs$;
     }
+    if (collectionName === 'likedVideos') {
+      return this.likedVideos$;
+    }
 
     const colRef = collection(this.firestore, collectionName);
     const q = query(colRef, orderBy('createdAt', 'desc'));
@@ -138,6 +157,21 @@ export class FirestoreService {
     return values.map((row: any) => {
       try {
         return JSON.parse(row.song);
+      } catch {
+        return null;
+      }
+    }).filter(Boolean);
+  }
+
+  /** ✅ Fetch all liked videos from SQLite */
+  async getLikedVideosFromDb(): Promise<any[]> {
+    await this.initDB();
+    const result = await this.db.query('SELECT * FROM liked_videos');
+    const values = result.values ?? [];
+
+    return values.map((row: any) => {
+      try {
+        return JSON.parse(row.video);
       } catch {
         return null;
       }
@@ -169,11 +203,36 @@ export class FirestoreService {
     await this.updateLikedSongsStream();
   }
 
+  /** ✅ Like a video (insert into local DB) */
+  async likeVideo(video: any): Promise<void> {
+    await this.initDB();
+
+    const videoWithTimestamp = {
+      ...video,
+      createdAt: new Date().toISOString(),
+    };
+
+    const videoStr = JSON.stringify(videoWithTimestamp);
+
+    await this.db.run(
+      'INSERT OR IGNORE INTO liked_videos (id, video) VALUES (?, ?)',
+      [video.id, videoStr]
+    );
+    await this.updateLikedVideosStream();
+  }
+
   /** ✅ Unlike a song (remove from local DB) */
   async unlikeSong(songId: string): Promise<void> {
     await this.initDB();
     await this.db.run('DELETE FROM liked_songs WHERE id = ?', [songId]);
     await this.updateLikedSongsStream();
+  }
+
+  /** ✅ Unlike a video (remove from local DB) */
+  async unlikeVideo(videoId: string): Promise<void> {
+    await this.initDB();
+    await this.db.run('DELETE FROM liked_videos WHERE id = ?', [videoId]);
+    await this.updateLikedVideosStream();
   }
 
   /** ✅ Save selected quality locally */
