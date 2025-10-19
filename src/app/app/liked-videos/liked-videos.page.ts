@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, signal } from '@angular/core';
-import { IonContent, IonFab, IonFabButton, ModalController, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonFab, IonFabButton, ModalController, IonButton, AlertController } from '@ionic/angular/standalone';
 import { FirestoreService } from '../../services/saavn.service';
 import { CommonModule } from '@angular/common';
 import { Player } from 'tunzo-player';
 import { MusicControlsComponent } from "../../components/controls/controls.page";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-liked-videos',
@@ -24,9 +25,13 @@ export class LikedVideosPage implements OnDestroy {
   constructor(
     private firebaseService: FirestoreService,
     private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
   ) {
     this.subscribe = this.firebaseService.likedVideos$.subscribe((data: any[]) => {
-      this.likedVideos = data || [];
+      this.likedVideos = data.map(video => ({
+        ...video,
+        safeUrl: this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${video.id}`)
+      })) || [];
       this.likedVideosLoading.set(false);
       this.cdr.detectChanges();
     });

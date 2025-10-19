@@ -28,7 +28,7 @@ export class LikedSongsPage implements OnDestroy {
     private modalCtrl: ModalController
   ) {
     this.subscribe = this.firebaseService.getCollectionData('likedSongs').subscribe((data: any[]) => {
-      this.homePageSongs = data || [];
+      this.homePageSongs = data ? data.reverse() : [];
       this.likedSongLoading.set(false);
       if (data && data.length) {
         this.player.initialize(data);

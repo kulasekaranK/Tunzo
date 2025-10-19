@@ -70,6 +70,7 @@ export class Tab2Page {
         this.results.set(resp);
         Player.initialize(this.results());
       }
+      this.loading.set(false);
     } else {
       this.results.set([]);
       this.ytmusicService.searchSongs(query).subscribe(ytResults => {
@@ -94,9 +95,9 @@ export class Tab2Page {
           }
         });
         this.videoResults.set(videoItems);
+        this.loading.set(false);
       });
     }
-    this.loading.set(false);
   }
 
   async toggleLike(videoItem: { video: any; isLiked: boolean; }) {
