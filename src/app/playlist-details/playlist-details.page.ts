@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, signal } from '@angular/core';
-import { IonContent, IonFab, IonFabButton, ModalController, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonFab, IonFabButton, ModalController, IonButton, AlertController, NavController } from '@ionic/angular/standalone';
 import { FirestoreService } from '../services/saavn.service';
 import { CommonModule } from '@angular/common';
 import { Player } from 'tunzo-player';
@@ -28,7 +28,9 @@ export class PlaylistDetailsPage implements OnDestroy {
     private firebaseService: FirestoreService,
     private cdr: ChangeDetectorRef,
     private modalCtrl: ModalController,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertCtrl: AlertController,
+    private navCtrl: NavController
   ) {
     this.playlistId = Number(this.route.snapshot.paramMap.get('id'));
     this.loadPlaylistDetails();
@@ -36,7 +38,7 @@ export class PlaylistDetailsPage implements OnDestroy {
 
   async loadPlaylistDetails() {
     this.playlist = await this.firebaseService.getPlaylistById(this.playlistId);
-    this.songs = await this.firebaseService.getSongsForPlaylist(this.playlistId);
+    this.songs = (await this.firebaseService.getSongsForPlaylist(this.playlistId)).reverse();
     this.likedSongLoading.set(false);
     if (this.songs && this.songs.length) {
       this.player.initialize(this.songs);
@@ -47,10 +49,28 @@ export class PlaylistDetailsPage implements OnDestroy {
   ngOnDestroy(): void {
   }
 
-    async openAddSongModal() {
-    const modal = await this.modalCtrl.create({
-      component: AddSongPage,
+
+
+  async confirmDelete() {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Playlist',
+      message: 'Are you sure you want to delete this playlist? This action cannot be undone.',
+      mode: 'ios',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: async () => {
+            await this.firebaseService.deletePlaylist(this.playlistId);
+            this.navCtrl.back();
+          },
+        },
+      ],
     });
-    await modal.present();
+
+    await alert.present();
   }
 }

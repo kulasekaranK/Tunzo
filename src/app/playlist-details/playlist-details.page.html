@@ -1,88 +1,84 @@
 <ion-content class="liked-songs-content" fullscreen="true" mode="ios">
-    <!-- Premium Header -->
-    <div class="header-container">
-        <div class="header-overlay"></div>
-        <div class="header-content">
-            <h1 class="header-title">{{ playlist.name }}</h1>
-            <p class="song-count">{{ playlist.description }}</p>
-            <p class="song-count">
-                {{ songs.length || 0 }} songs
-            </p>
-        </div>
+  <ion-fab slot="fixed" vertical="top" horizontal="end" class="ion-padding-top">
+    <ion-fab-button (click)="confirmDelete()" >
+      <span class="material-icons">delete</span>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="background-glow"></div>
+
+  <!-- Premium Header -->
+  <div class="header-container">
+    <div class="header-background" [style.backgroundImage]="'url(' + (songs[0]?.imageUrl || songs[0]?.image[2]?.url) + ')'"></div>
+    <div class="header-content">
+      <img [src]="songs[0]?.imageUrl || songs[0]?.image[2]?.url" alt="Playlist Art" class="playlist-art" />
+      <div class="playlist-info">
+        <h1 class="header-title">{{ playlist.name }}</h1>
+        <p class="song-count">{{ songs.length || 0 }} songs</p>
+      </div>
     </div>
+  </div>
 
-    <!-- Loader -->
-    @if (likedSongLoading()) {
-    <div class="skeleton-loader">
-        @for (item of [1,2,3,4,5,6,7,8]; track $index) {
-        <div class="skeleton-item">
-            <div class="skeleton-number"></div>
-            <div class="skeleton-art"></div>
-            <div class="skeleton-details">
-                <div class="skeleton-line"></div>
-                <div class="skeleton-line short"></div>
-            </div>
-            <div class="skeleton-actions">
-                <div class="skeleton-icon"></div>
-                <div class="skeleton-icon"></div>
-            </div>
-        </div>
-        }
-    </div>
-    } @else {
-    <!-- Premium Song List -->
-    <div class="song-list">
-        @for (song of songs; let i = $index; track song.id) {
-        <div class="song-item" [class.playing]="player.getCurrentSong()?.id === song?.id" (click)="player.play(song)">
-            <div class="song-number">{{ songs.length - i }}</div>
-
-            <div class="album-art">
-                <img [src]="song?.imageUrl || song?.image[1]?.url" alt="Album cover" class="art-image" />
-
-                <!-- Overlay with play/pause icon -->
-                <div class="art-overlay" *ngIf="player.getCurrentSong()?.id === song?.id">
-                    <ng-container *ngIf="player.isPlayingSong(); else showPause">
-                        <!-- Playing (show pause icon) -->
-                        <svg class="play-icon" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
-      </svg>
-                    </ng-container>
-                    <ng-template #showPause>
-                        <!-- Not playing (show play icon) -->
-                        <svg class="pause-icon" viewBox="0 0 24 24">
-        <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-      </svg>
-                    </ng-template>
-                </div>
-            </div>
-
-
-            <div class="song-details">
-                <h3 class="song-title">{{ song?.name }}</h3>
-                <p class="song-info">{{ song?.album?.name }} • {{ song?.year }}</p>
-            </div>
-
-            <div class="song-actions">
-
-                <button class="play-btn queue-btn" (click)="$event.stopPropagation(); player.addToQueue(song)">
-                    <span class="material-icons">queue_music</span>
-                </button>
-            </div>
-        </div>
-        } @empty { @if(songs.length === 0) {
-        <div class="no-songs">
-            <p>You haven\'t added any songs to this playlist yet.</p>
-            <p>Start exploring and add your favorites!</p>
-        </div>
-        } }
+  <!-- Loader -->
+  @if (likedSongLoading()) {
+  <div class="skeleton-loader">
+    @for (item of [1,2,3,4,5,6,7,8]; track $index) {
+    <div class="skeleton-item">
+      <div class="skeleton-number"></div>
+      <div class="skeleton-art"></div>
+      <div class="skeleton-details">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+      </div>
+      <div class="skeleton-actions">
+        <div class="skeleton-icon"></div>
+        <div class="skeleton-icon"></div>
+      </div>
     </div>
     }
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button (click)="openAddSongModal()">
-            <span class="material-icons">add</span>
-        </ion-fab-button>
-    </ion-fab>
+  </div>
+  } @else {
+  <!-- Premium Song List -->
+  <div class="song-list">
+    @for (song of songs; let i = $index; track song.id) {
+    <div class="song-item" [class.playing]="player.getCurrentSong()?.id === song?.id" (click)="player.play(song)">
+      <div class="song-number">{{ songs.length - i }}</div>
 
+      <div class="album-art">
+        <img [src]="song?.imageUrl || song?.image[1]?.url" alt="Album cover" class="art-image" />
+
+        <!-- Overlay with play/pause icon -->
+        <div class="art-overlay">
+          @if(player.getCurrentSong()?.id === song?.id && player.isPlayingSong()) {
+          <svg class="pause-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+          </svg>
+          } @else {
+          <svg class="play-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+          </svg>
+          }
+        </div>
+      </div>
+
+      <div class="song-details">
+        <h3 class="song-title">{{ song?.name }}</h3>
+        <p class="song-info">{{ song?.album?.name }}</p>
+      </div>
+
+      <div class="song-actions">
+        <button class="play-btn queue-btn" (click)="$event.stopPropagation(); player.addToQueue(song)">
+          <span class="material-icons">queue_music</span>
+        </button>
+      </div>
+    </div>
+    } @empty {
+    <div class="no-songs">
+      <p>You haven't added any songs to this playlist yet.</p>
+      <p>Start exploring and add your favorites!</p>
+    </div>
+    }
+  </div>
+  }
 </ion-content>
 
 @if(player.getCurrentSong()) {

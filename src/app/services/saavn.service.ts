@@ -342,6 +342,17 @@ export class FirestoreService {
     }).filter(Boolean);
   }
 
+  /** ✅ Delete a playlist and its songs */
+  async deletePlaylist(playlistId: number): Promise<void> {
+    await this.initDB();
+    // First, delete all songs associated with the playlist
+    await this.db.run('DELETE FROM playlist_songs WHERE playlist_id = ?', [playlistId]);
+    // Then, delete the playlist itself
+    await this.db.run('DELETE FROM playlists WHERE id = ?', [playlistId]);
+    // Update the playlists stream
+    await this.updatePlaylistsStream();
+  }
+
   // ============================================================
   // 🔹 Firestore Fallback / Non-migrated APIs
   // ============================================================

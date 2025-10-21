@@ -19,13 +19,13 @@
             </div>
 
             <div class="player-primary-controls">
-                <button class="player-nav-button" (click)="player.prev()">
+                <button class="player-nav-button" (click)="$event.stopPropagation(); player.prev()">
                     <svg class="player-nav-icon" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M6 18V6h2v12H6m3.5-6L18 6v12l-8.5-6z" />
                     </svg>
                 </button>
 
-                <button class="player-play-button" (click)="player.togglePlayPause()">
+                <button class="player-play-button" (click)="$event.stopPropagation(); player.togglePlayPause()">
                     <svg class="player-play-icon" viewBox="0 0 24 24">
                         @if (player.isPlayingSong()) {
                         <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
@@ -35,7 +35,7 @@
                     </svg>
                 </button>
 
-                <button class="player-nav-button" (click)="player.next()">
+                <button class="player-nav-button" (click)="$event.stopPropagation(); player.next()">
                     <svg class="player-nav-icon" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M16 18h2V6h-2v12m-3.5-6L6 6v12l6.5-6z" />
                     </svg>
@@ -43,14 +43,14 @@
             </div>
 
                         <div class="player-secondary-controls">
-                            <button class="player-action-button" (click)="toggleLikeSong(player.getCurrentSong())">
+                            <button class="player-action-button" (click)="$event.stopPropagation(); toggleLikeSong(player.getCurrentSong())">
                               <span class="material-icons"
                                     [style.color]="isLiked() ? 'var(--ion-color-danger)' : 'currentColor'">
                                 favorite
                               </span>
                             </button>
             
-                            <button class="player-action-button" (click)="openAddToPlaylistModal()">
+                            <button class="player-action-button" (click)="$event.stopPropagation(); openAddToPlaylistModal()">
                               <span class="material-icons">playlist_add</span>
                             </button>
                         </div>        </div>
