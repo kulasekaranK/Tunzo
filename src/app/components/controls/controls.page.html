@@ -1,5 +1,5 @@
 <ion-footer class="music-player-footer">
-    <ion-toolbar class="player-controls-toolbar">
+    <ion-toolbar class="player-controls-toolbar" (click)=" openModal()">
 
         <div class="player-progress-container ion-margin-bottom">
             <ion-progress-bar [value]="player.getCurrentTime() / player.getDuration()" color="primary" class="player-progress-bar" [class.player-active]="player.isPlayingSong()">
@@ -42,22 +42,18 @@
                 </button>
             </div>
 
-            <div class="player-secondary-controls">
-                <button class="player-action-button" (click)="toggleLikeSong(player.getCurrentSong())">
-  <span class="material-icons"
-        [style.color]="isLiked() ? 'var(--ion-color-danger)' : 'currentColor'">
-    favorite
-  </span>
-</button>
-
-                <button class="player-action-button" (click)=" openModal()">
-                    <svg class="player-action-icon" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
+                        <div class="player-secondary-controls">
+                            <button class="player-action-button" (click)="toggleLikeSong(player.getCurrentSong())">
+                              <span class="material-icons"
+                                    [style.color]="isLiked() ? 'var(--ion-color-danger)' : 'currentColor'">
+                                favorite
+                              </span>
+                            </button>
+            
+                            <button class="player-action-button" (click)="openAddToPlaylistModal()">
+                              <span class="material-icons">playlist_add</span>
+                            </button>
+                        </div>        </div>
     </ion-toolbar>
 </ion-footer>
 

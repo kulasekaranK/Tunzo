@@ -34,8 +34,27 @@
         <span class="material-icons">chevron_right</span>
       </div>
     </div>
+
+    <!-- Playlists -->
+    <div class="list-item" *ngFor="let playlist of playlists" (click)="goToPlaylist(playlist.id)">
+      <div class="item-icon">
+        <span class="material-icons">playlist_play</span>
+      </div>
+      <div class="item-details">
+        <h3 class="item-title">{{ playlist.name }}</h3>
+        <p class.item-subtitle>{{ playlist.description }}</p>
+      </div>
+      <div class="item-arrow">
+        <span class="material-icons">chevron_right</span>
+      </div>
+    </div>
   </div>
 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openCreatePlaylistModal()">
+      <span class="material-icons">add</span>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 @if(player.getCurrentSong()) {

@@ -1,8 +1,9 @@
 import { Component, effect, OnInit, signal, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { IonFooter, IonToolbar, IonProgressBar, IonModal,ToastController, IonContent, IonReorder, IonLabel, IonReorderGroup, IonThumbnail, IonItem, IonList, IonCardContent, IonCardHeader, IonCard, IonText, IonRange } from "@ionic/angular/standalone";
+import { IonFooter, IonToolbar, IonProgressBar, IonModal,ToastController, IonContent, IonReorder, IonLabel, IonReorderGroup, IonThumbnail, IonItem, IonList, IonCardContent, IonCardHeader, IonCard, IonText, IonRange, ModalController } from "@ionic/angular/standalone";
 import { FirestoreService } from 'src/app/services/saavn.service';
 import { Player, StreamSettings } from 'tunzo-player';
+import { AddToPlaylistPage } from '../add-to-playlist/add-to-playlist.page';
 
 @Component({
   selector: 'app-music-controls',
@@ -22,7 +23,8 @@ export class MusicControlsComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer,
     private firebaseService: FirestoreService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private modalCtrl: ModalController
   ) { 
 
   }
@@ -102,6 +104,18 @@ export class MusicControlsComponent implements OnInit {
     toast.present();
   }
 
-
+  async openAddToPlaylistModal() {
+    const modal = await this.modalCtrl.create({
+      component: AddToPlaylistPage,
+      componentProps: {
+        song: Player.getCurrentSong()
+      }
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data?.added) {
+      this.showToast('Song added to playlist', 'success');
+    }
+  }
 
 }

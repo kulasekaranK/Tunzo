@@ -6,6 +6,7 @@ import { Player } from 'tunzo-player';
 import { MusicControlsComponent } from "../components/controls/controls.page";
 import { AddSongPage } from '../add-song/add-song.page';
 import { Router } from '@angular/router';
+import { CreatePlaylistPage } from '../components/create-playlist/create-playlist.page';
 
 @Component({
   selector: 'app-tab3',
@@ -14,16 +15,18 @@ import { Router } from '@angular/router';
   imports: [IonButton, IonFabButton, IonFab, 
     IonContent, CommonModule,
     MusicControlsComponent
-],
+  ],
 })
 export class Tab3Page implements OnDestroy {
   songs: any[] = [];
   subscribe: any;
   subscribeVideos: any;
+  subscribePlaylists: any;
   homePageSongs: any[] = [];
   likedVideos: any[] = [];
+  playlists: any[] = [];
   player = Player
- constructor(
+  constructor(
     private firebaseService: FirestoreService,
     private cdr: ChangeDetectorRef,
     private modalCtrl: ModalController,
@@ -38,6 +41,11 @@ export class Tab3Page implements OnDestroy {
       this.likedVideos = data || [];
       this.cdr.detectChanges();
     });
+
+    this.subscribePlaylists = this.firebaseService.playlists$.subscribe((data: any[]) => {
+      this.playlists = data || [];
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnDestroy(): void {
@@ -47,6 +55,9 @@ export class Tab3Page implements OnDestroy {
     if (this.subscribeVideos) {
       this.subscribeVideos.unsubscribe();
     }
+    if (this.subscribePlaylists) {
+      this.subscribePlaylists.unsubscribe();
+    }
   }
 
   goToLikedSongs() {
@@ -55,6 +66,17 @@ export class Tab3Page implements OnDestroy {
 
   goToLikedVideos() {
     this.router.navigate(['/liked-videos']);
+  }
+
+  goToPlaylist(playlistId: number) {
+    this.router.navigate(['/playlist', playlistId]);
+  }
+
+  async openCreatePlaylistModal() {
+    const modal = await this.modalCtrl.create({
+      component: CreatePlaylistPage,
+    });
+    await modal.present();
   }
 
     async openAddSongModal() {

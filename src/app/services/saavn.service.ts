@@ -30,6 +30,9 @@ export class FirestoreService {
   private likedVideosSubject = new BehaviorSubject<any[]>([]);
   likedVideos$ = this.likedVideosSubject.asObservable();
 
+  private playlistsSubject = new BehaviorSubject<any[]>([]);
+  playlists$ = this.playlistsSubject.asObservable();
+
   constructor(private firestore: Firestore) {
     this.sqlite = new SQLiteConnection(CapacitorSQLite);
   }
@@ -61,6 +64,15 @@ export class FirestoreService {
     `);
 
     await this.db.execute(`
+      CREATE TABLE IF NOT EXISTS playlists (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT,
+        createdAt TEXT NOT NULL
+      );
+    `);
+
+    await this.db.execute(`
       CREATE TABLE IF NOT EXISTS quality (
         id TEXT PRIMARY KEY,
         value INTEGER,
@@ -68,9 +80,19 @@ export class FirestoreService {
       );
     `);
 
+    await this.db.execute(`
+      CREATE TABLE IF NOT EXISTS playlist_songs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        playlist_id INTEGER,
+        song TEXT,
+        FOREIGN KEY (playlist_id) REFERENCES playlists(id) ON DELETE CASCADE
+      );
+    `);
+
     this.dbInitialized = true;
     await this.updateLikedSongsStream();
     await this.updateLikedVideosStream();
+    await this.updatePlaylistsStream();
   }
 
   private async updateLikedSongsStream() {
@@ -81,6 +103,11 @@ export class FirestoreService {
   private async updateLikedVideosStream() {
     const likedVideos = await this.getLikedVideosFromDb();
     this.likedVideosSubject.next(likedVideos);
+  }
+
+  private async updatePlaylistsStream() {
+    const playlists = await this.getPlaylists();
+    this.playlistsSubject.next(playlists);
   }
 
   // ============================================================
@@ -142,6 +169,9 @@ export class FirestoreService {
     if (collectionName === 'likedVideos') {
       return this.likedVideos$;
     }
+    if (collectionName === 'playlists') {
+      return this.playlists$;
+    }
 
     const colRef = collection(this.firestore, collectionName);
     const q = query(colRef, orderBy('createdAt', 'desc'));
@@ -176,6 +206,34 @@ export class FirestoreService {
         return null;
       }
     }).filter(Boolean);
+  }
+
+  /** ✅ Create a new playlist */
+  async createPlaylist(name: string, description: string): Promise<void> {
+    await this.initDB();
+    const createdAt = new Date().toISOString();
+    await this.db.run(
+      'INSERT INTO playlists (name, description, createdAt) VALUES (?, ?, ?)',
+      [name, description, createdAt]
+    );
+    await this.updatePlaylistsStream();
+  }
+
+  /** ✅ Fetch all playlists from SQLite */
+  async getPlaylists(): Promise<any[]> {
+    await this.initDB();
+    const result = await this.db.query('SELECT * FROM playlists ORDER BY createdAt DESC');
+    return result.values ?? [];
+  }
+
+  /** ✅ Add a song to a playlist */
+  async addSongToPlaylist(playlistId: number, song: any): Promise<void> {
+    await this.initDB();
+    const songStr = JSON.stringify(song);
+    await this.db.run(
+      'INSERT INTO playlist_songs (playlist_id, song) VALUES (?, ?)',
+      [playlistId, songStr]
+    );
   }
 
   /** ✅ Check if a song is liked (exists in local DB) */
@@ -259,6 +317,29 @@ export class FirestoreService {
     }
 
     return null;
+  }
+
+  /** ✅ Get a single playlist by its ID */
+  async getPlaylistById(id: number): Promise<any | null> {
+    await this.initDB();
+    const result = await this.db.query('SELECT * FROM playlists WHERE id = ?', [id]);
+    const values = result.values ?? [];
+    return values.length > 0 ? values[0] : null;
+  }
+
+  /** ✅ Get all songs for a specific playlist */
+  async getSongsForPlaylist(playlistId: number): Promise<any[]> {
+    await this.initDB();
+    const result = await this.db.query('SELECT * FROM playlist_songs WHERE playlist_id = ?', [playlistId]);
+    const values = result.values ?? [];
+
+    return values.map((row: any) => {
+      try {
+        return JSON.parse(row.song);
+      } catch {
+        return null;
+      }
+    }).filter(Boolean);
   }
 
   // ============================================================

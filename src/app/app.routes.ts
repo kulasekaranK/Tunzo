@@ -23,5 +23,9 @@ export const routes: Routes = [
   {
     path: 'liked-videos',
     loadComponent: () => import('./app/liked-videos/liked-videos.page').then( m => m.LikedVideosPage)
+  },
+  {
+    path: 'playlist/:id',
+    loadComponent: () => import('./playlist-details/playlist-details.page').then( m => m.PlaylistDetailsPage)
   }
 ];
