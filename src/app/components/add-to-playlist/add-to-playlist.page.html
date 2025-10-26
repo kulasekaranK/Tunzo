@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list inset="true" >
+  <ion-list inset="true">
     <ion-item *ngFor="let playlist of playlists" (click)="addToPlaylist(playlist.id)" lines="none">
       <ion-label>{{ playlist.name }}</ion-label>
     </ion-item>

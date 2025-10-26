@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonInput, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonButton, IonList, IonInput, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { FirestoreService } from '../../services/saavn.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { FirestoreService } from '../../services/saavn.service';
   templateUrl: './create-playlist.page.html',
   styleUrls: ['./create-playlist.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonButton, IonInput, IonItem, IonLabel]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonList, CommonModule, FormsModule, IonButtons, IonButton, IonInput, IonItem, IonLabel]
 })
 export class CreatePlaylistPage {
   playlistName = '';

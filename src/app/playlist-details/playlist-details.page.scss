@@ -167,15 +167,21 @@
 }
 
 .song-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .song-info {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .song-actions {
