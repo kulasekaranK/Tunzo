@@ -8,12 +8,15 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { NotificationService } from '../services/notification.service';
 import { environment } from '../../environments/environment';
 import { YtmusicService } from '../services/ytmusic.service';
+import { AiService } from '../services/ai.service';
+import { AiContentComponent } from '../services/ai-content.component';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonButton,  IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
+  imports: [AiContentComponent, IonButton,  IonSkeletonText,  IonNote, IonLabel, IonItem, IonList,
     IonContent, MusicControlsComponent, FormsModule, RouterLink, RouterModule, IonSearchbar],
 })
 export class Tab1Page implements OnInit {
@@ -24,10 +27,55 @@ export class Tab1Page implements OnInit {
   api = new TunzoPlayerAPI();
   player = Player;
   loading = signal<boolean>(false);
+  aiPrompt = '';
 
-  constructor( private notif: NotificationService, private ytmusicService: YtmusicService) {
+  constructor( private notif: NotificationService, private ytmusicService: YtmusicService,
+    private aiService : AiService, private authService: AuthService
+  ) {
    this.notif.scheduleBasic();
+   this.aiPrompt = this.createGreetingPrompt();
   }
+  private createGreetingPrompt(): string {
+    let userName = 'User'; // default
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser?.displayName) {
+      userName = currentUser.displayName;
+    }
+  
+    // Get user's local date, time, and weekday
+    const now = new Date();
+    // Using a richer format for the AI to pick up on the specific day (e.g., Saturday) and time (e.g., 1:36 AM)
+    const localDateTime = now.toLocaleString('en-IN', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  
+    // Create a clear, direct prompt for Gemini
+    return `
+      The user's name is ${userName}.
+      The user is viewing the homepage. The current local time and day is: ${localDateTime}.
+      
+      Generate a warm, creative, and personalized welcome message that is suitable for a mobile-friendly homepage.
+      
+      The output must be formatted using **strictly Markdown** and contain two parts to offer more content:
+      
+      1.  A Level 4 Markdown heading (####) containing the personalized greeting (e.g., "Good Evening, [Name]!").
+      2.  A single, contextual sentence immediately below the heading that provides a relevant and personalized suggestion or note based on the day of the week or time (e.g., "Time for a smooth jazz playlist to unwind this Sunday evening." or "A powerful new workout mix is waiting for your Monday morning.")
+      
+      Example of desired output format:
+      #### Happy Friday, ${userName}!
+      Ready to kick off the weekend? We've updated your party playlist recommendations.
+      
+      Output **only** the complete Markdown text. Do not include any extra introductory text, conversational fillers, or quotes.
+    `;
+  }
+
+  
+
  async ngOnInit(){
   await LocalNotifications.requestPermissions();
   this.loading.set(true);

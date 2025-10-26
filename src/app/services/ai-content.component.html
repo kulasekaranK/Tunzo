@@ -1,0 +1,23 @@
+<div class="ai-card">
+    <!-- AI Label Chip - Added for clear identification -->
+    <div class="ai-label-chip"> <span class="material-icons" style="font-size: 12px;">auto_awesome</span> AI GENERATED</div>
+    
+    <!-- Use a single container for the structured markdown output (header + content sentence) -->
+    <div class="ai-greeting-container" *ngIf="!loading() && heading()">
+      <!-- The markdown component handles the rendering of the H4 and the sentence below it -->
+      <markdown [data]="heading()"></markdown>
+    </div>
+  
+    <div *ngIf="loading()" class="skeleton-container">
+      <!-- Updated skeleton to represent both the header and the sentence -->
+      <ion-skeleton-text [animated]="true" class="skeleton-header"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" class="skeleton-line"></ion-skeleton-text>
+      <ion-skeleton-text [animated]="true" class="skeleton-line-short"></ion-skeleton-text>
+    </div>
+  
+    <!-- Fallback for no content -->
+    <div *ngIf="!loading() && !heading() && !content()" class="empty-state">
+      <p>Waiting for a personalized welcome...</p>
+    </div>
+  </div>
+  

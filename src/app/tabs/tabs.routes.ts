@@ -32,6 +32,10 @@ export const routes: Routes = [
           import('../profile/profile.page').then((m) => m.ProfilePage),
       },
       {
+        path: 'chat',
+        loadComponent: () => import('../chat/chat.page').then(m => m.ChatPage)
+      },
+      {
         path:'add-song',
         loadComponent: () => import('../add-song/add-song.page').then( m => m.AddSongPage)  
       },

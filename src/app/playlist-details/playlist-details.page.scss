@@ -161,9 +161,14 @@
 }
 
 .song-details {
+  /* Retain flex: 1 to make it take up available space */
   flex: 1;
   margin-left: 16px;
   color: white;
+  /* Add padding-right to create a buffer from the song-actions on the right */
+  padding-right: 16px; /* A little extra room for visual separation */
+  /* Ensure details don't shrink past a reasonable point, though flex: 1 should handle this */
+  min-width: 0;
 }
 
 .song-title {
@@ -173,6 +178,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Ensure it is blocked to respect the max width of its container */
+  display: block; 
 }
 
 .song-info {
@@ -182,9 +189,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Ensure it is blocked to respect the max width of its container */
+  display: block;
 }
 
+/* The song-actions section should remain compact */
 .song-actions {
+  /* Set a fixed size or use flex-shrink: 0 to ensure it doesn't shrink */
+  flex-shrink: 0; 
   display: flex;
   align-items: center;
 }

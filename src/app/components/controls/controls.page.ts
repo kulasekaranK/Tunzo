@@ -4,12 +4,15 @@ import { IonFooter, IonToolbar, IonProgressBar, IonModal,ToastController, IonCon
 import { FirestoreService } from 'src/app/services/saavn.service';
 import { Player, StreamSettings } from 'tunzo-player';
 import { AddToPlaylistPage } from '../add-to-playlist/add-to-playlist.page';
+import { AiContentComponent } from 'src/app/services/ai-content.component';
 
 @Component({
   selector: 'app-music-controls',
   templateUrl: './controls.page.html',
   styleUrls: ['./controls.page.scss'],
-  imports: [IonRange, IonText, IonCard, IonCardHeader, IonCardContent, IonList, IonItem, IonReorderGroup, IonLabel, IonReorder, IonContent, IonModal, IonProgressBar, IonToolbar, IonFooter, IonThumbnail]
+  imports: [IonRange, IonText, IonCard, IonCardHeader, IonCardContent, IonList, IonItem,
+     IonReorderGroup, IonLabel, IonReorder, IonContent, IonModal, IonProgressBar, IonToolbar,
+      IonFooter, IonThumbnail, AiContentComponent]
 })
 export class MusicControlsComponent implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
@@ -20,14 +23,17 @@ export class MusicControlsComponent implements OnInit {
   isLiked = signal(false);
   currentSong = signal<any>(Player.getCurrentSong());
   lastSongId: string | undefined;
+  aiPrompt = signal('');
 
   constructor(private sanitizer: DomSanitizer,
     private firebaseService: FirestoreService,
     private toastController: ToastController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
   ) { 
-
+   
   }
+
+  
   ngOnInit() {
     this.checkIfLiked(Player.getCurrentSong());
     Player.queue$.subscribe(q => {
@@ -41,9 +47,55 @@ export class MusicControlsComponent implements OnInit {
     if (current?.id !== this.lastSongId) {
       this.lastSongId = current?.id;
       this.checkIfLiked(current);
+      this.aiPrompt.set(this.createSongSummaryPrompt(Player.getCurrentSong()));
     }
   }, 500); 
 
+  }
+
+  private createSongSummaryPrompt(song: any): string {
+   // 1. Destructure and extract only the most relevant song details.
+  const relevantSongData = {
+    name: song.name,
+    artist: song.artists.primary.map((a: any) => a.name).join(', '),
+    album: song.album.name,
+    year: song.year,
+    language: song.language,
+    playCount: song.playCount,
+    lyricist: song.artists.all.filter((a: any) => a.role === 'lyricist').map((a: any) => a.name).join(', ') || 'N/A',
+  };
+
+  // 2. Stringify the clean, minimal object
+  const relevantSongString = JSON.stringify(relevantSongData);
+
+  // 3. Create a clear, direct prompt for a Markdown summary
+  return `
+    The user is currently listening to a song with the following details:
+    
+    ${relevantSongString}
+    
+    Generate a **complete, insightful summary** about this song. The output must be formatted using **strictly Markdown** for mobile readability.
+    
+    The summary must follow this structure exactly:
+    
+    1.  A Level 2 Markdown heading (##) containing the song name and primary artist.
+    2.  A brief, engaging opening sentence about the song's general theme or mood.
+    3.  A bulleted list containing three key facts:
+        -   **Release/Album Details** (Year and Album Name)
+        -   **Language/Genre Context** (Language, and an assumed genre like 'Indie Pop' or 'Film Track')
+        -   **Popularity** (Mentioning the Play Count in a compelling way)
+    
+    Example Output Format:
+    
+    ## Aasa Kooda by Sai Abhyankkar
+    This track is a vibrant, feel-good Tamil independent single that captures the excitement of new love.
+    
+    * **Release:** 2024 on the album 'Aasa Kooda from Think Indie'
+    * **Context:** A catchy Tamil Indie Pop song with lyrics by Sathyan Ilanko.
+    * **Popularity:** This popular track has been streamed over 29 million times!
+    
+    Output **only** the complete Markdown text. Do not include any extra introductory text, conversational fillers, or quotes.
+  `;
   }
   sanitizeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

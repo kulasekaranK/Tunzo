@@ -16,6 +16,7 @@ import { getDatabase } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 import { provideAuth, getAuth, initializeAuth, indexedDBLocalPersistence } from '@angular/fire/auth';
 import { Capacitor } from '@capacitor/core';
+import { provideMarkdown } from 'ngx-markdown';
 
 const firebaseApp =  initializeApp({
   apiKey: "AIzaSyAOzJLEoMIBLiYsEWFbI_OYuyux5bH2kgI",
@@ -53,6 +54,7 @@ bootstrapApplication(AppComponent, {
     provideFirestore(() => getFirestore(firebaseApp)),
     provideStorage(() => getStorage(firebaseApp)),
     provideMessaging(()=>getMessaging()),
-    provideDatabase(()=>getDatabase())
+    provideDatabase(()=>getDatabase()),
+    provideMarkdown()
   ],
 });

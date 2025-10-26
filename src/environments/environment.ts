@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  appVersion: '1.0.28'
+  appVersion: '1.0.28',
+  geminiApiKey: 'AIzaSyDMNopUmkOX6jRmy97c2Lgr-IgACl9hOBw'
 };
 
 /*
